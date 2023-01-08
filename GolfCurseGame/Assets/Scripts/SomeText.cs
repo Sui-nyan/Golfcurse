@@ -21,6 +21,6 @@ public class SomeText : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        text.text = Chicken.health.ToString();
+        text.text = Chicken.Health.ToString();
     }
 }

@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    public float health;
+    public float Health => Health;
+    private float health;
+    
+
     public float attack;
 
     Rigidbody rb;
@@ -25,6 +28,7 @@ public class Stats : MonoBehaviour
 
     public void Knockback(float thrust)
     {
-        rb.AddForce(Vector3.back * thrust);
+
+        rb.AddForce(Vector3.back * thrust, ForceMode.Impulse);
     }
 }
