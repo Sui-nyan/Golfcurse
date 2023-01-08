@@ -20,7 +20,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(!combat.isAttacking)
+        if(!combat.IsAttacking)
             PlayerMovement();
 
         LookToMouse();

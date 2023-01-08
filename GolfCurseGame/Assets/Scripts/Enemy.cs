@@ -9,9 +9,8 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent agent;
     private GameObject player;
     private Animator animator;
+    public float range;
 
-    public float health = 10;
-    public float range = 5f;
     private bool isInRange, isRunning;
     // Start is called before the first frame update
     void Start()
@@ -34,7 +33,6 @@ public class Enemy : MonoBehaviour
     void ChasePlayer()
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
-        print(distance);
 
         if(distance >= 2f)
         {
@@ -42,16 +40,6 @@ public class Enemy : MonoBehaviour
             agent.SetDestination(player.transform.position);
         }
         
-    }
-
-    public void TakeDamage(float damage)
-    {
-        health -= damage;
-
-        if(health <= 0)
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void OnDrawGizmos()

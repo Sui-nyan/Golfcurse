@@ -6,20 +6,18 @@ public class PlayerCombat : MonoBehaviour
 {
     private Animator animator;
     public LayerMask enemyMask;
-
-    public float health;
-    public float hitdamage;
+    public Weapon weapon;
 
     [SerializeField] private float comboCooldown = 0.7f;
     private float lastClick = 0f;
     private int comboCount = 0;
-    public bool isAttacking;
-
-    private HashSet<GameObject> EnemiesInRange = new HashSet<GameObject>();
+    public bool IsAttacking => isAttacking;
+    private bool isAttacking;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        weapon = GetComponentInChildren<Weapon>();
     }
 
     public void ResetAttack()
@@ -27,10 +25,12 @@ public class PlayerCombat : MonoBehaviour
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("hit1") || animator.GetCurrentAnimatorStateInfo(0).IsName("hit2") || animator.GetCurrentAnimatorStateInfo(0).IsName("hit3"))
         {
             isAttacking = true;
+            EnableWeapon();
         }
         else
         {
             isAttacking = false;
+            DisableWeapon();
         }
         if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("hit1"))
         {
@@ -73,12 +73,14 @@ public class PlayerCombat : MonoBehaviour
             animator.SetBool("hit3", true);
         }
     }
-    public void DamageEnemy()
+
+   void EnableWeapon()
     {
-        foreach(GameObject gameObject in EnemiesInRange)
-        {
-            Enemy enemy = gameObject.GetComponent<Enemy>();
-            enemy.TakeDamage(hitdamage);
-        }
+        weapon.enabled = true;
+    }
+
+    void DisableWeapon()
+    {
+        weapon.enabled = false;
     }
 }

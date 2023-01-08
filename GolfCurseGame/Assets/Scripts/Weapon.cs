@@ -5,25 +5,36 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public BoxCollider collider;
+    [SerializeField] private float damage;
+    [SerializeField] private float thrust;
 
-    
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        collider = GetComponent<BoxCollider>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        collider.enabled = false;
+    }
+
+    private void OnEnable()
+    {
+        collider.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            print("test");
+            DamageEnemy(other.gameObject);
         }
+    }
+
+    void DamageEnemy(GameObject enemy)
+    {
+        Stats stats = enemy.GetComponent<Stats>();
+        stats.TakeDamage(damage);
+        stats.Knockback(thrust);
     }
 }
