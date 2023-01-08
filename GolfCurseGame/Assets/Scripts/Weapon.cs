@@ -21,9 +21,9 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Untagged"))
+        if (other.CompareTag("Enemy"))
         {
-            print(other.name);
+            print("test");
         }
     }
 }

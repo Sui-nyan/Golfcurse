@@ -33,8 +33,15 @@ public class Enemy : MonoBehaviour
 
     void ChasePlayer()
     {
-        animator.SetBool("Run", true);
-        agent.SetDestination(player.transform.position);
+        float distance = Vector3.Distance(transform.position, player.transform.position);
+        print(distance);
+
+        if(distance >= 2f)
+        {
+            animator.SetBool("Run", true);
+            agent.SetDestination(player.transform.position);
+        }
+        
     }
 
     public void TakeDamage(float damage)
