@@ -16,6 +16,7 @@ public class Stats : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
+
     public void TakeDamage(float damage)
     {
         health -= damage;
@@ -25,19 +26,20 @@ public class Stats : MonoBehaviour
             Destroy(gameObject);
             try
             {
-                Instantiate<ParticleSystem>(destroyVFX, transform.position, Quaternion.identity);
-            } catch (NullReferenceException e)
+                if (destroyVFX != null)
+                {
+                    Instantiate<ParticleSystem>(destroyVFX, transform.position, Quaternion.identity);
+                }
+            }
+            catch (NullReferenceException e)
             {
                 Debug.LogError("You forgot to add destroyVFX...");
             }
-                
         }
     }
 
     public void Knockback(float thrust)
     {
-
         rb.AddForce(Vector3.back * thrust, ForceMode.Impulse);
     }
-
 }
