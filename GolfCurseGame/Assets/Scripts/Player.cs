@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed = 5f;
     
     Vector3 mousePos;
-    
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -30,9 +30,6 @@ public class Player : MonoBehaviour
         {
             combat.AttackAnimation();
         }
-            
-
-
     }
 
     void PlayerMovement()

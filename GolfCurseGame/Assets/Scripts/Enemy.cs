@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     public LayerMask playerMask;
     public NavMeshAgent agent;
     private GameObject player;
+
+    [SerializeField] private ParticleSystem hitVFX;
     private Animator animator;
     private Rigidbody rb;
     private Stats stats;
@@ -61,7 +63,7 @@ public class Enemy : MonoBehaviour
         {
             animator.SetTrigger("Attack");
             Stats playerStats = player.GetComponent<Stats>();
-            playerStats.TakeDamage(stats.attack);
+            playerStats.TakeDamage(stats.Attack);
         }
 
     }

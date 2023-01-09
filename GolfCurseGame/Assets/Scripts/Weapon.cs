@@ -5,8 +5,8 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     public BoxCollider collider;
-    [SerializeField] private float damage;
-    [SerializeField] private float thrust;
+    public float damage = 10f;
+    public float thrust = 5f;
 
     private void Start()
     {

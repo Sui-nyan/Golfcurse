@@ -1416,6 +1416,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   agent: {fileID: 1506790399}
+  hitVFX: {fileID: 8108920523391674604, guid: 763e71fceee71b54fbbed21880ae9f09, type: 3}
   range: 3
   attackrange: 1
 --- !u!65 &1506790403
@@ -1459,8 +1460,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9427aed7ab213fa4485cccc7938057bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 15
+  health: 20
   attack: 5
+  destroyVFX: {fileID: 8108920523391674604, guid: 763e71fceee71b54fbbed21880ae9f09, type: 3}
 --- !u!4 &1509102037 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8780474142049394590, guid: afe05fa4689f7484394dfda61d7a08a1, type: 3}
@@ -6863,7 +6865,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collider: {fileID: 7495912916794920420}
-  damage: 0
+  damage: 10
   thrust: 5
 --- !u!1 &7512972510358643562
 GameObject:
@@ -7250,8 +7252,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9427aed7ab213fa4485cccc7938057bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 200
-  attack: 5
+  health: 150
+  attack: 10
+  destroyVFX: {fileID: 0}
 --- !u!4 &7683075124271128090
 Transform:
   m_ObjectHideFlags: 0
