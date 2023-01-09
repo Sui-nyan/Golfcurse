@@ -18,18 +18,21 @@ public class Player : MonoBehaviour
         combat = GetComponent<PlayerCombat>();
     }
 
+    void Update()
+    {
+        combat.ResetAttack();
+        if(Input.GetMouseButtonDown(0))
+        {
+            combat.AttackAnimation();
+        }
+    }
+    
     void FixedUpdate()
     {
         if(!combat.IsAttacking)
             PlayerMovement();
 
         LookToMouse();
-
-        combat.ResetAttack();
-        if(Input.GetMouseButtonDown(0))
-        {
-            combat.AttackAnimation();
-        }
     }
 
     void PlayerMovement()
