@@ -9,6 +9,11 @@ public class PlayerCamera : MonoBehaviour
     private float speed = 0.1f;
     public Vector3 offset;
 
+    private void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     void FixedUpdate()
     {
         FollowPlayer();

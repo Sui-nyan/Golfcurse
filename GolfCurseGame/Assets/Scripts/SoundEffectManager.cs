@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class SoundEffectManager : MonoBehaviour
 {
-    public string[] deathKeys, hitKeys;
-    public GameObject[] deathValues, hitValues;
-    private Dictionary<string, ParticleSystem> deathSounds;
-    private Dictionary<string, GameObject> hitSounds;
+    public string[] deathKeys;
+    public GameObject[] deathValues;
+    private Dictionary<string, AudioSource> deathSounds;
 
     private void Start()
     {
@@ -17,41 +16,8 @@ public class SoundEffectManager : MonoBehaviour
         }
     }
 
-    public void onDeath(GameObject gameObject)
+    public static void onDeath(GameObject gameObject)
     {
-        switch (gameObject.tag)
-        {
-            case "Player":
-                //TODO
-                break;
-            case "Enemy":
-                //TODO
-                break;
-            case "Boss":
-                //TODO
-                break;
-            default:
-                Debug.Log("no death sound found");
-                break;
-        }
-    }
-
-    public void onHit(GameObject gameObject)
-    {
-        switch (gameObject.tag)
-        {
-            case "Player":
-                //TODO
-                break;
-            case "Enemy":
-                //TODO
-                break;
-            case "Boss":
-                //TODO
-                break;
-            default:
-                Debug.Log("no hit sound found");
-                break;
-        }
+        //TODO
     }
 }

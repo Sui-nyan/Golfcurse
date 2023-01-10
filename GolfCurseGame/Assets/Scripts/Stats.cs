@@ -9,7 +9,6 @@ public class Stats : MonoBehaviour
     public float Attack => attack;
     [SerializeField] private float health;
     [SerializeField] private float attack;
-    [SerializeField] private ParticleSystem destroyVFX;
     Rigidbody rb;
 
     private void Start()
@@ -23,14 +22,7 @@ public class Stats : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
-            try
-            {
-                Instantiate<ParticleSystem>(destroyVFX, transform.position, Quaternion.identity);
-            } catch (NullReferenceException e)
-            {
-                Debug.LogError("You forgot to add destroyVFX..." + e);
-            }
-                
+            VisualEffectsManager.onDeath(gameObject);
         }
     }
 

@@ -23,8 +23,16 @@ public class DungeonManager : MonoBehaviour
     {
         Debug.Log("Loaded " + scene.name);
         spawnPoints = GameObject.FindObjectsOfType<Spawner>();
-        SpawnEnemies();
-        Debug.Log("Enemies spawned");
+        if (spawnPoints.Length <= 0)
+        {
+            SpawnEnemies();
+            Debug.Log("Enemies spawned");
+        } 
+    }
+
+    private void Start()
+    {
+        blockers = GameObject.FindObjectsOfType<DoorBlocker>();
     }
 
     private void Update()
@@ -51,8 +59,7 @@ public class DungeonManager : MonoBehaviour
     {
         foreach (DoorBlocker d in blockers)
         {
-            Destroy(d);
-            
+            if(d) Destroy(d);
         }
     }
 
