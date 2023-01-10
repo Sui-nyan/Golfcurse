@@ -25,16 +25,13 @@ public class Player : MonoBehaviour
         {
             if(combat.TriggerAttack()) LookToMouse();
         }
-    }
-
-    void PlayerMovement()
-    {
+        
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
         direction = new Vector3(x, 0, z);
     }
-
+    
     private void FixedUpdate()
     {
         HandlePlayerMovement();
