@@ -1,15 +1,16 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     private CharacterController controller;
     private Animator animator;
     private PlayerCombat combat;
 
     [SerializeField] private float speed = 5f;
-    
+
     Vector3 mousePos;
+    private Vector3 direction;
 
     void Start()
     {
@@ -20,19 +21,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        combat.ResetAttack();
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            combat.AttackAnimation();
+            if(combat.TriggerAttack()) LookToMouse();
         }
-    }
-    
-    void OnAnimatorMove()
-    {
-            if (!combat.IsAttacking)
-                PlayerMovement();
-
-           LookToMouse();
     }
 
     void PlayerMovement()
@@ -40,16 +32,25 @@ public class Player : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        Vector3 direction = new Vector3(x, 0, z);
-        controller.Move(direction.normalized * speed * Time.deltaTime);
+        direction = new Vector3(x, 0, z);
+    }
 
-        if (direction != Vector3.zero)
+    private void FixedUpdate()
+    {
+        HandlePlayerMovement();
+    }
+
+    void HandlePlayerMovement()
+    {
+        if (combat.IsAttacking || direction == Vector3.zero)
         {
-            animator.SetBool("isWalking", true);
+            animator.SetBool("isWalking", false);
         }
         else
         {
-            animator.SetBool("isWalking", false);
+            controller.Move(direction.normalized * (speed * Time.fixedDeltaTime));
+            animator.SetBool("isWalking", true);
+            transform.LookAt(transform.position + direction);
         }
     }
 

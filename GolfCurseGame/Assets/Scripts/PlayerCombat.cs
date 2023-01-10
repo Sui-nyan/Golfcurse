@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,12 +8,20 @@ public class PlayerCombat : MonoBehaviour
     private Animator animator;
     public LayerMask enemyMask;
     public Weapon weapon;
+    
+    private float comboTimer = 0;
+    private int attackIndex = 0; // attackIndex
 
-    [SerializeField] private float comboCooldown = 0.7f;
-    private float lastClick = 0f;
-    private int comboCount = 0;
-    public bool IsAttacking => isAttacking;
-    private bool isAttacking;
+    [SerializeField] private Attack[] attacks = new Attack[]
+    {
+        new Attack("h1", 0.4f, 1.2f, 1),
+        new Attack("h2", 0.4f, 1f, 1),
+        new Attack("h3", 1f, 1f, 3)
+    };
+
+    [SerializeField] private bool isAnimationLocked = false;
+    public bool IsAttacking => attackIndex != -1;
+    
 
     void Start()
     {
@@ -20,61 +29,59 @@ public class PlayerCombat : MonoBehaviour
         weapon = GetComponentInChildren<Weapon>();
     }
 
-    public void ResetAttack()
+    private void Update()
     {
-        if (animator.GetCurrentAnimatorStateInfo(0).IsName("hit1") || animator.GetCurrentAnimatorStateInfo(0).IsName("hit2") || animator.GetCurrentAnimatorStateInfo(0).IsName("hit3"))
+        // time passes
+        if (comboTimer > 0)
         {
-            isAttacking = true;
-            EnableWeapon();
+            comboTimer -= Time.deltaTime;
         }
-        else
+
+        // Check animation lock
+        if (0 <= attackIndex && attackIndex < attacks.Length)
         {
-            isAttacking = false;
+            var currentAttack = attacks[attackIndex];
+            var timePassed = currentAttack.maxDelay - comboTimer;
+            if (timePassed > currentAttack.minDelay)
+            {
+                isAnimationLocked = false;
+            }
+        }
+
+        // Check combo timeout
+        if (comboTimer <= 0)
+        {
+            attackIndex = -1;
+            foreach (var atk in attacks)
+            {
+                animator.ResetTrigger(atk.triggerName);
+            }
             DisableWeapon();
         }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("hit1"))
-        {
-            animator.SetBool("hit1", false);
-        }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("hit2"))
-        {
-            animator.SetBool("hit2", false);
-        }
-        if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.7f && animator.GetCurrentAnimatorStateInfo(0).IsName("hit3"))
-        {
-            animator.SetBool("hit3", false);
-            comboCount = 0;
-        }
-
-        if (Time.time - lastClick > comboCooldown)
-        {
-            comboCount = 0;
-        }
     }
-    public void AttackAnimation()
+
+
+    public bool TriggerAttack()
     {
-        lastClick = Time.time;
-        comboCount++;
-        if (comboCount == 1)
+        if (isAnimationLocked) return false;
+        
+        if (attackIndex == -1 || attackIndex < attacks.Length - 1)
         {
-            animator.SetBool("hit1", true);
+            attackIndex = Mathf.Clamp(attackIndex + 1, 0, attacks.Length - 1);
+            var attack = attacks[attackIndex];
+            comboTimer = attack.maxDelay;
+            isAnimationLocked = true;
+            animator.SetTrigger(attack.triggerName);
+            weapon.damage = attack.damage;
+            EnableWeapon();
+            Debug.Log("Attack" + attackIndex);
+            return true;
         }
-        comboCount = Mathf.Clamp(comboCount, 0, 3);
 
-        if (comboCount >= 2 && animator.GetCurrentAnimatorStateInfo(0).IsName("hit1"))
-        {
-            animator.SetBool("hit1", false);
-            animator.SetBool("hit2", true);
-        }
-
-        if (comboCount >= 3 && animator.GetCurrentAnimatorStateInfo(0).IsName("hit2"))
-        {
-            animator.SetBool("hit2", false);
-            animator.SetBool("hit3", true);
-        }
+        return false;
     }
 
-   void EnableWeapon()
+    void EnableWeapon()
     {
         weapon.enabled = true;
     }
@@ -82,5 +89,27 @@ public class PlayerCombat : MonoBehaviour
     void DisableWeapon()
     {
         weapon.enabled = false;
+    }
+}
+
+    
+[Serializable]
+public class Attack
+{
+    // parameter name in animation controller
+    public string triggerName;
+    // min delay between attacks, isAnimationLocked
+    public float minDelay;
+    // max delay between attacks, determines IsAttacking (cannot run)
+    public float maxDelay;
+    // DAMAGE DEALT
+    public float damage;
+
+    public Attack(string triggerName, float minDelay, float maxDelay, float damage)
+    {
+        this.triggerName = triggerName;
+        this.minDelay = minDelay;
+        this.maxDelay = maxDelay;
+        this.damage = damage;
     }
 }
