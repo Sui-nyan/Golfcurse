@@ -7,6 +7,7 @@ public class DungeonManager : MonoBehaviour
 {
     [SerializeField] List<GameObject> Rooms = new List<GameObject>();
     private List<GameObject> enemies = new List<GameObject>();
+    private GameObject player;
     private Spawner[] spawnPoints;
     private DoorBlocker[] blockers;
 
@@ -16,7 +17,6 @@ public class DungeonManager : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-        DontDestroyOnLoad(gameObject);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode load)
@@ -76,5 +76,10 @@ public class DungeonManager : MonoBehaviour
 
             isRoomCleared = true;
         }
+    }
+
+    void ReloadRoom()
+    {
+
     }
 }

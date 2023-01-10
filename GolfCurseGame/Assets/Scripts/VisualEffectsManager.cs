@@ -29,38 +29,14 @@ public class VisualEffectsManager : MonoBehaviour
 
     public void onDeath(GameObject gameObject)
     {
-        switch (gameObject.tag)
-        {
-            case "Player": GameObject.Instantiate<ParticleSystem>(deathVFXs["player"], gameObject.transform.position, Quaternion.identity);
-                break;
-            case "Enemy":
-                GameObject.Instantiate<ParticleSystem>(deathVFXs["enemy"], gameObject.transform.position, Quaternion.identity);
-                break;
-            case "Boss":
-                GameObject.Instantiate<ParticleSystem>(deathVFXs["boss"], gameObject.transform.position, Quaternion.identity);
-                break;
-            default:
-                Debug.Log("no death VFX found");
-                break;
-        }
+        ParticleSystem p = GameObject.Instantiate<ParticleSystem>(deathVFXs[gameObject.tag], gameObject.transform.position, Quaternion.identity);
+        Destroy(p, p.main.duration);
+        Debug.Log(p.name);
     }
 
     public void onHit(GameObject gameObject)
     {
-        switch (gameObject.tag)
-        {
-            case "Player":
-                GameObject.Instantiate<ParticleSystem>(deathVFXs["player"], gameObject.transform.position, Quaternion.identity);
-                break;
-            case "Enemy":
-                GameObject.Instantiate<ParticleSystem>(deathVFXs["enemy"], gameObject.transform.position, Quaternion.identity);
-                break;
-            case "Boss":
-                GameObject.Instantiate<ParticleSystem>(deathVFXs["boss"], gameObject.transform.position, Quaternion.identity);
-                break;
-            default:
-                Debug.Log("no hit VFX found");
-                break;
-        }
+        ParticleSystem p = GameObject.Instantiate<ParticleSystem>(deathVFXs[gameObject.tag], gameObject.transform.position, Quaternion.identity);
+        Destroy(p, p.main.duration);
     }
 }
