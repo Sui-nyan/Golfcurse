@@ -9,7 +9,7 @@ public class DungeonManager : MonoBehaviour
     private List<GameObject> enemies = new List<GameObject>();
     private GameObject player;
     private Spawner[] spawnPoints;
-    private DoorBlocker[] blockers;
+    private Door[] doors;
 
     public float numberOfSpawns;
     private bool isRoomCleared;
@@ -32,7 +32,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Start()
     {
-        blockers = GameObject.FindObjectsOfType<DoorBlocker>();
+        doors = GameObject.FindObjectsOfType<Door>();
     }
 
     private void Update()
@@ -57,9 +57,16 @@ public class DungeonManager : MonoBehaviour
 
     void OpenDoors()
     {
-        foreach (DoorBlocker d in blockers)
+        foreach (Door d in doors)
         {
-            if(d) Destroy(d);
+            if (d)
+            {
+                d.isPassable = true;
+                foreach(Transform child in d.transform)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
         }
     }
 
@@ -78,7 +85,7 @@ public class DungeonManager : MonoBehaviour
             }
         }
 
-        if(enemies.Count <= 0)
+        if(enemies.Count <= 0 && GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
         {
 
             isRoomCleared = true;

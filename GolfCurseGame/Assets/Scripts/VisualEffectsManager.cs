@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class VisualEffectsManager : MonoBehaviour
 {
-    private string[] deathKeys;
-    private ParticleSystem[] deathVFX;
+    [SerializeField] private string[] deathKeys;
+    [SerializeField] private ParticleSystem[] deathVFX;
 
-    [SerializeField] public static Dictionary<string, ParticleSystem> deathVFXs;
+     public static Dictionary<string, ParticleSystem> deathVFXs;
 
     private void Start()
     {
         deathVFXs = new Dictionary<string, ParticleSystem>();
 
-        for (int i = 0; i <= Mathf.Min(deathKeys.Length, deathVFX.Length); i++)
+        for (int i = 0; i <= Mathf.Min(deathKeys.Length - 1 , deathVFX.Length - 1); i++)
         {
-            if(deathVFX[0]) deathVFXs.Add(deathKeys[i], deathVFX[i]);
+            if(deathVFX[i]) deathVFXs.Add(deathKeys[i], deathVFX[i]);
         }
     }
     public static void onDeath(GameObject gameObject)

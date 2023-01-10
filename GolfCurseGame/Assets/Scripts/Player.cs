@@ -29,10 +29,10 @@ public class Player : MonoBehaviour
     
     void OnAnimatorMove()
     {
-        if(!combat.IsAttacking)
-            PlayerMovement();
+            if (!combat.IsAttacking)
+                PlayerMovement();
 
-        LookToMouse();
+           LookToMouse();
     }
 
     void PlayerMovement()
