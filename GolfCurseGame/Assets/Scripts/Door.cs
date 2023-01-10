@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 public class Door : MonoBehaviour
 {
     [SerializeField]
-    private Scene[] DungeonScenes;
+    private int[] DungeonScenes;
+    [SerializeField]
+    private int BossScene;
 
-    bool isNextBoss;
+    public bool isNextBoss;
     public bool isPassable;
+    bool canTeleport = true;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -18,27 +21,31 @@ public class Door : MonoBehaviour
             if (other.CompareTag("Player") && !isNextBoss)
             {
                 int i = Random.Range(0, DungeonScenes.Length - 1);
-                //SceneManager.LoadScene(i, LoadSceneMode.Additive);
+                SceneManager.LoadScene(DungeonScenes[i], LoadSceneMode.Additive);
             }
             else
             {
-                //SceneManager.LoadScene(DungeonScenes.Length, LoadSceneMode.Additive);
+                SceneManager.LoadScene(BossScene, LoadSceneMode.Additive);
             }
 
-            RepositionPlayer(other.gameObject);
+            Teleport(other.gameObject);
             Debug.Log(other.transform.position);
-            StartCoroutine(RepositionPlayer(other.gameObject));
+            StartCoroutine(Teleport(other.gameObject));
         }
     }
 
-    IEnumerator RepositionPlayer(GameObject player)
+    IEnumerator Teleport(GameObject player)
     {
-        Debug.Log("Teleporting..." + player.transform.position);
-        player.TryGetComponent<Player>(out Player PlayerScript);
-        PlayerScript.enabled = false;
-        yield return new WaitForSeconds(0.2f);
-        player.transform.position = Vector3.zero;
-        yield return new WaitForSeconds(0.2f);
-        PlayerScript.enabled = true;
+        if(canTeleport)
+        {
+            Debug.Log("Teleporting..." + player.transform.position);
+            player.TryGetComponent<Player>(out Player PlayerScript);
+            PlayerScript.enabled = false;
+            yield return new WaitForSeconds(0.2f);
+            player.transform.position = new Vector3(0, 0, 10);
+            yield return new WaitForSeconds(0.2f);
+            PlayerScript.enabled = true;
+        }
+        canTeleport = false;
     }
 }

@@ -198,7 +198,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &318786960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +244,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 841736b3c08c3034b9f57383882af2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathKeys: []
+  deathVFX: []
 --- !u!114 &318786963
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -481,6 +483,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 756217635885265641, guid: 5cdb88cd285076846bd55a0d2b5b8a35, type: 3}
+      propertyPath: BossScene
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 756217635885265641, guid: 5cdb88cd285076846bd55a0d2b5b8a35, type: 3}
+      propertyPath: DungeonScenes.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 756217635885265641, guid: 5cdb88cd285076846bd55a0d2b5b8a35, type: 3}
+      propertyPath: DungeonScenes.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3486577877995737274, guid: 5cdb88cd285076846bd55a0d2b5b8a35, type: 3}
       propertyPath: m_Name
       value: Room_empty

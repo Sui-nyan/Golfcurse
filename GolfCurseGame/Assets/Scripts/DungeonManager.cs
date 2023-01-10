@@ -25,7 +25,7 @@ public class DungeonManager : MonoBehaviour
         spawnPoints = GameObject.FindObjectsOfType<Spawner>();
         if (spawnPoints.Length <= 0)
         {
-            SpawnEnemies();
+            //SpawnEnemies();
             Debug.Log("Enemies spawned");
         } 
     }
