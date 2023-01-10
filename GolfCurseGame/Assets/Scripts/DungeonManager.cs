@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
-    private List<GameObject> enemies;
+    [SerializeField] List<GameObject> Rooms = new List<GameObject>();
+    private List<GameObject> enemies = new List<GameObject>();
     private Spawner[] spawnPoints;
     private DoorBlocker[] blockers;
 
@@ -15,14 +16,7 @@ public class DungeonManager : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void Update()
-    {
-        if (isRoomCleared)
-        {
-            OpenDoors();
-        }
+        DontDestroyOnLoad(gameObject);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode load)
@@ -31,6 +25,15 @@ public class DungeonManager : MonoBehaviour
         spawnPoints = GameObject.FindObjectsOfType<Spawner>();
         SpawnEnemies();
         Debug.Log("Enemies spawned");
+    }
+
+    private void Update()
+    {
+        CheckEnemies();
+        if (isRoomCleared)
+        {
+            OpenDoors();
+        }
     }
 
     void SpawnEnemies()
@@ -49,6 +52,7 @@ public class DungeonManager : MonoBehaviour
         foreach (DoorBlocker d in blockers)
         {
             Destroy(d);
+            
         }
     }
 
@@ -64,8 +68,13 @@ public class DungeonManager : MonoBehaviour
             else
             {
                 enemies.Remove(go);
-                isRoomCleared = true;
             }
+        }
+
+        if(enemies.Count <= 0)
+        {
+
+            isRoomCleared = true;
         }
     }
 }

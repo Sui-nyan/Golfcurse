@@ -879,6 +879,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74f2b8bf52b6e44479184076f5fe5de0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Rooms: []
   numberOfSpawns: 5
 --- !u!4 &2077491236 stripped
 Transform:
@@ -3486,10 +3487,6 @@ PrefabInstance:
     - target: {fileID: 3486577877995737275, guid: 5cdb88cd285076846bd55a0d2b5b8a35, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5687326924877101862, guid: 5cdb88cd285076846bd55a0d2b5b8a35, type: 3}
-      propertyPath: m_RootOrder
-      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5cdb88cd285076846bd55a0d2b5b8a35, type: 3}
@@ -6244,7 +6241,7 @@ GameObject:
   - component: {fileID: 7653305119577173057}
   - component: {fileID: 7653305119577173061}
   m_Layer: 0
-  m_Name: Set Costume_02 SD Unity-Chan WGS
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

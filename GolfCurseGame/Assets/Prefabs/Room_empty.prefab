@@ -309,11 +309,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1276307199323807289, guid: 8c6b4691469d4ff4283976c82772fc28, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1944401
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 1276307199323807289, guid: 8c6b4691469d4ff4283976c82772fc28, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.5204401
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1276307199323807289, guid: 8c6b4691469d4ff4283976c82772fc28, type: 3}
       propertyPath: m_LocalRotation.w
@@ -371,11 +371,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8796535685621083639, guid: 811639946ae74bc45a395e523bd4d832, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.042383045
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8796535685621083639, guid: 811639946ae74bc45a395e523bd4d832, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.1944401
+      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 8796535685621083639, guid: 811639946ae74bc45a395e523bd4d832, type: 3}
       propertyPath: m_LocalPosition.z
@@ -470,6 +470,10 @@ PrefabInstance:
     - target: {fileID: 8563274308604223256, guid: 96ff24931eae41f4eb5147542d49f3d3, type: 3}
       propertyPath: m_Name
       value: Flooring
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563274309992806204, guid: 96ff24931eae41f4eb5147542d49f3d3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 96ff24931eae41f4eb5147542d49f3d3, type: 3}

@@ -27,7 +27,7 @@ public class Player : MonoBehaviour
         }
     }
     
-    void FixedUpdate()
+    void OnAnimatorMove()
     {
         if(!combat.IsAttacking)
             PlayerMovement();
