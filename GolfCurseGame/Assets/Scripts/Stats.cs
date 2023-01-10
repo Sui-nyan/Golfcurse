@@ -28,7 +28,7 @@ public class Stats : MonoBehaviour
                 Instantiate<ParticleSystem>(destroyVFX, transform.position, Quaternion.identity);
             } catch (NullReferenceException e)
             {
-                Debug.LogError("You forgot to add destroyVFX...");
+                Debug.LogError("You forgot to add destroyVFX..." + e);
             }
                 
         }

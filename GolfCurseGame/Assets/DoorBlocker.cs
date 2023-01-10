@@ -15,4 +15,9 @@ public class DoorBlocker : MonoBehaviour
     {
         
     }
+
+    private void OnDestroy()
+    {
+        //Spawn a teleporter
+    }
 }

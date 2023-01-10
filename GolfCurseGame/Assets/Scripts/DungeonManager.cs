@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
-    private HashSet<GameObject> enemies;
+    private List<GameObject> enemies;
     private Spawner[] spawnPoints;
     private DoorBlocker[] blockers;
 
@@ -15,6 +15,14 @@ public class DungeonManager : MonoBehaviour
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void Update()
+    {
+        if (isRoomCleared)
+        {
+            OpenDoors();
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode load)
