@@ -189,7 +189,7 @@ MonoBehaviour:
     m_Bits: 1
   agent: {fileID: 3541924025824354411}
   hitVFX: {fileID: 8108920523391674604, guid: 763e71fceee71b54fbbed21880ae9f09, type: 3}
-  range: 3
+  range: 2
   attackrange: 1
 --- !u!114 &3541924025824356241
 MonoBehaviour:
@@ -205,7 +205,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 20
   attack: 5
-  destroyVFX: {fileID: 8108920523391674604, guid: 763e71fceee71b54fbbed21880ae9f09, type: 3}
 --- !u!1 &3540230271842855217
 GameObject:
   m_ObjectHideFlags: 0
