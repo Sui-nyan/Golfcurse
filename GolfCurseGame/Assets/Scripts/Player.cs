@@ -37,6 +37,9 @@ public class Player : MonoBehaviour
         HandlePlayerMovement();
     }
 
+    /// <summary>
+    /// player movement and walking animation
+    /// </summary>
     void HandlePlayerMovement()
     {
         if (combat.IsAttacking || direction == Vector3.zero)
@@ -51,6 +54,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// player faces towards mouse cursor
+    /// </summary>
     void LookToMouse()
     {
         mousePos = Input.mousePosition;

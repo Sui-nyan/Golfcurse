@@ -18,10 +18,10 @@ public class VisualEffectsManager : MonoBehaviour
             if(deathVFX[i]) deathVFXs.Add(deathKeys[i], deathVFX[i]);
         }
     }
-    public static void onDeath(GameObject gameObject)
+    public static void OnDeath(GameObject gameObject)
     {
+        Debug.Log("Defeated " + gameObject.name);
         ParticleSystem p = GameObject.Instantiate<ParticleSystem>(deathVFXs[gameObject.tag], gameObject.transform.position, Quaternion.identity);
         Destroy(p, p.main.duration);
-        Debug.Log(p.name);
     }
 }

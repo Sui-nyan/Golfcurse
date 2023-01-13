@@ -1,23 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Door : MonoBehaviour
 {
     public bool isPassable;
+    public bool enteredDoor;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (isPassable)
         {
-            if (other.CompareTag("Player"))
+            if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Additive);
+                Debug.Log("Entering Door...");
+                StartCoroutine(Teleport(other.gameObject));
+                enteredDoor = true;
             }
-          
-            Debug.Log(other.transform.position);
-            StartCoroutine(Teleport(other.gameObject));
         }
     }
 

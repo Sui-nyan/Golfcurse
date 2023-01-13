@@ -34,7 +34,10 @@ public class Weapon : MonoBehaviour
     void DamageEnemy(GameObject enemy)
     {
         Stats stats = enemy.GetComponent<Stats>();
-        stats.TakeDamage(damage);
-        stats.Knockback(thrust);
+        if (stats)
+        {
+            stats.TakeDamage(damage);
+            stats.Knockback(thrust);
+        }
     }
 }

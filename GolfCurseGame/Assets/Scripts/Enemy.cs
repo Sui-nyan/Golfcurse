@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.AI;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -31,6 +31,9 @@ public class Enemy : MonoBehaviour
         ChasePlayer();
     }
 
+    /// <summary>
+    /// chases the player, stops within attack range
+    /// </summary>
     void ChasePlayer()
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
@@ -50,12 +53,17 @@ public class Enemy : MonoBehaviour
 
         }
     }
+
+    /// <summary>
+    /// attacks if player is within range
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
             attackCooldown -= Time.deltaTime;
-            if(attackCooldown <= 0)
+            if (attackCooldown <= 0)
             {
                 Stats playerStats = other.GetComponent<Stats>();
                 Attack(playerStats);
@@ -63,10 +71,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// attacks the player and resets the attack cooldown before initiating new attack
+    /// </summary>
+    /// <param name="player"></param>
     void Attack(Stats player)
-    {   
+    {
         animator.SetTrigger("Attack");
-        
+
         player.TakeDamage(stats.Attack);
         attackCooldown = 1f;
     }

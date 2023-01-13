@@ -188,9 +188,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   agent: {fileID: 3541924025824354411}
-  hitVFX: {fileID: 8108920523391674604, guid: 763e71fceee71b54fbbed21880ae9f09, type: 3}
-  range: 2
-  attackrange: 1
 --- !u!114 &3541924025824356241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,7 +200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9427aed7ab213fa4485cccc7938057bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthbar: {fileID: 0}
+  healthbar: {fileID: 1360811632474296633, guid: 7033816884de8744aa2831018c66d8b5, type: 3}
   healthbarOffset: {x: 0, y: 30, z: 0}
   health: 10
   attack: 5

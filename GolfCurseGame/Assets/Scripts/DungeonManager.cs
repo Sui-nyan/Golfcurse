@@ -9,25 +9,26 @@ public class DungeonManager : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] Camera playerCamera;
     private Door door;
+    private GUIManager gui;
 
-    public float numberOfSpawns;
     private bool isRoomCleared;
     // Start is called before the first frame update
 
 
     private void Start()
     {
-        door = GameObject.FindObjectOfType<Door>();
+        door = FindObjectOfType<Door>();
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        gui = GetComponent<GUIManager>();
     }
 
     private void Update()
     {
         CheckEnemies();
-        if (isRoomCleared)
-        {
-            OpenDoors();
-        }
+        if (isRoomCleared) OpenDoors();
+        
+        if (door.enteredDoor)
+            LoadNextDungeonRoom();
     }
 
 
@@ -49,9 +50,16 @@ public class DungeonManager : MonoBehaviour
         {
             if (go)
             {
-                isRoomCleared = true;
-                break;
+                isRoomCleared = false;
+                return;
             }
         }
+        isRoomCleared = true;
+    }
+
+    public void LoadNextDungeonRoom()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Additive);
+        gui.TransistionOut();
     }
 }

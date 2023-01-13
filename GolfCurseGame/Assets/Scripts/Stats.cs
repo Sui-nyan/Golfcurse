@@ -17,11 +17,14 @@ public class Stats : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        if(healthbar) healthbar.SetMaxSliderValue(health);
+        if(!healthbar) 
+            healthbar = Instantiate<Healthbar>(healthbar);
+        healthbar.SetMaxSliderValue(health);
     }
 
     private void Update()
     {
+        if(healthbar)
         healthbar.transform.position = Camera.main.WorldToScreenPoint(transform.position) + healthbarOffset;
     }
     public void TakeDamage(float damage)
@@ -33,7 +36,7 @@ public class Stats : MonoBehaviour
         {
             Destroy(gameObject);
             Destroy(healthbar.gameObject);
-            VisualEffectsManager.onDeath(gameObject);
+            VisualEffectsManager.OnDeath(gameObject);
         }
     }
 
