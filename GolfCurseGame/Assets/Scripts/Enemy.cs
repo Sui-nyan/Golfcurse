@@ -55,19 +55,19 @@ public class Enemy : MonoBehaviour
 
         }
     }
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log("trigger");
+        Stats playerStats = other.GetComponent<Stats>();
+        StartCoroutine(Attack(playerStats));
+    }
+
     IEnumerator Attack(Stats player)
     {
         yield return new WaitForSeconds(0.2f);
         animator.SetTrigger("Attack");
         player.TakeDamage(stats.Attack);
         yield return new WaitForSeconds(0.5f);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("trigger");
-        Stats playerStats = other.GetComponent<Stats>();
-        StartCoroutine(Attack(playerStats));
     }
 
     private void OnDrawGizmosSelected()

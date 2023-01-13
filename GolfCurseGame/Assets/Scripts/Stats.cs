@@ -7,6 +7,7 @@ public class Stats : MonoBehaviour
 {
     [SerializeField]
     private Healthbar healthbar;
+    public Vector3 healthbarOffset = new Vector3(0, 30, 0);
     public float Health => health;
     public float Attack => attack;
     [SerializeField] private float health;
@@ -18,6 +19,11 @@ public class Stats : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         if(healthbar) healthbar.SetMaxSliderValue(health);
     }
+
+    private void Update()
+    {
+        healthbar.transform.position = Camera.main.WorldToScreenPoint(transform.position) + healthbarOffset;
+    }
     public void TakeDamage(float damage)
     {
         health -= damage;
@@ -26,6 +32,7 @@ public class Stats : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
+            Destroy(healthbar.gameObject);
             VisualEffectsManager.onDeath(gameObject);
         }
     }

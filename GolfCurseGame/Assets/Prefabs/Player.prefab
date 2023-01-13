@@ -1357,7 +1357,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1878715767326182129}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.25
   m_Height: 1
@@ -1375,7 +1375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9427aed7ab213fa4485cccc7938057bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 150
+  healthbar: {fileID: 0}
+  healthbarOffset: {x: 0, y: 100, z: 0}
+  health: 200
   attack: 10
 --- !u!1 &1953657386658797012
 GameObject:
