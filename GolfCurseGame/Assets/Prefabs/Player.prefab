@@ -964,8 +964,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.30965355, y: 0.29604465, z: 1.1855139}
-  m_Center: {x: 0.08853277, y: -0.025200482, z: 0.6607181}
+  m_Size: {x: 0.36083156, y: 0.60887957, z: 1.1855139}
+  m_Center: {x: 0.022296747, y: -0.013960585, z: 0.6607181}
 --- !u!1 &1757130039606815565
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,7 +1317,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   weapon: {fileID: 0}
-  comboCooldown: 0.7
+  attacks:
+  - triggerName: h1
+    minDelay: 0.4
+    maxDelay: 1.2
+    damage: 1
+  - triggerName: h2
+    minDelay: 0.4
+    maxDelay: 1
+    damage: 1.5
+  - triggerName: h3
+    minDelay: 1
+    maxDelay: 1
+    damage: 5
+  isAnimationLocked: 0
 --- !u!143 &1878715767326182131
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1364,7 +1377,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 150
   attack: 10
-  destroyVFX: {fileID: 0}
 --- !u!1 &1953657386658797012
 GameObject:
   m_ObjectHideFlags: 0

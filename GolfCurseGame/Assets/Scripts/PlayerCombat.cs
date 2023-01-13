@@ -15,8 +15,8 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] private Attack[] attacks = new Attack[]
     {
         new Attack("h1", 0.4f, 1.2f, 1),
-        new Attack("h2", 0.4f, 1f, 2),
-        new Attack("h3", 1f, 1f, 3)
+        new Attack("h2", 0.4f, 1f, 1.5f),
+        new Attack("h3", 1f, 1f, 5f)
     };
 
     [SerializeField] private bool isAnimationLocked = false;
