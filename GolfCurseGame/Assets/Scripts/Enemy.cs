@@ -9,13 +9,12 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent agent;
     private GameObject player;
 
-    [SerializeField] private ParticleSystem hitVFX;
     private Animator animator;
     private Rigidbody rb;
     private Stats stats;
-    public float range, attackrange = 1;
 
-    private bool isInRange;
+    private float attackrange = 1;
+    private float attackCooldown = 1f;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,13 +26,9 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        isInRange = Physics.CheckSphere(transform.position, range, playerMask);
         animator.SetBool("Run", false);
 
-        if (isInRange)
-        {
-            ChasePlayer();
-        }
+        ChasePlayer();
     }
 
     void ChasePlayer()
@@ -57,23 +52,28 @@ public class Enemy : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("trigger");
-        Stats playerStats = other.GetComponent<Stats>();
-        StartCoroutine(Attack(playerStats));
+        if (other.CompareTag("Player"))
+        {
+            attackCooldown -= Time.deltaTime;
+            if(attackCooldown <= 0)
+            {
+                Stats playerStats = other.GetComponent<Stats>();
+                Attack(playerStats);
+            }
+        }
     }
 
-    IEnumerator Attack(Stats player)
-    {
-        yield return new WaitForSeconds(0.2f);
+    void Attack(Stats player)
+    {   
         animator.SetTrigger("Attack");
+        
         player.TakeDamage(stats.Attack);
-        yield return new WaitForSeconds(0.5f);
+        attackCooldown = 1f;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, range);
         Gizmos.DrawWireSphere(transform.position, attackrange);
     }
 }
