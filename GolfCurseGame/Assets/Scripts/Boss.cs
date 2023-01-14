@@ -8,6 +8,10 @@ public class Boss : MonoBehaviour
     private Rigidbody rb;
 
     [SerializeField]
+    Vector3 minBoundary;
+    [SerializeField]
+    Vector3 maxBoundary;
+    [SerializeField]
     private AttackMove[] attackMoves = new AttackMove[]
     {
         //new AttackMove("TurnHead", 1f, 5f),
@@ -28,7 +32,7 @@ public class Boss : MonoBehaviour
         bossStats = GetComponent<Stats>();
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = new Vector3(0, 0, 5);
+        rb.centerOfMass = transform.position;
     }
 
     private void Update()
@@ -36,14 +40,24 @@ public class Boss : MonoBehaviour
         int random = Random.Range(0, attackMoves.Length - 1);
 
         if (attackCooldown > 0)
+        {
             attackCooldown -= Time.deltaTime;
+        }
+
 
         if (attackCooldown <= 0)
         {
             TriggerAttack(random);
         }
-        
+
+        if (!isAttacking)
+        {
+            //Move();
+        }
+
     }
+
+    bool checkIfAttacking() { return true; }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -52,8 +66,7 @@ public class Boss : MonoBehaviour
     }
 
     void TriggerAttack(int attackIndex)
-    {
-        isAttacking = true;
+    {    
         AttackMove attack = attackMoves[attackIndex];
         animator.SetTrigger(attack.animationTrigger);
         attackCooldown = attack.cooldown;
@@ -68,9 +81,23 @@ public class Boss : MonoBehaviour
         if (attack.dashAttack || triggerdash)
         {
             triggerdash = false;
-            rb.velocity = transform.forward * attack.velocity;
+            rb.AddForce(transform.forward * attack.velocity, ForceMode.VelocityChange);
 
             Debug.Log("force");
+        }
+    }
+
+    void Move()
+    {
+        float x = Random.Range(minBoundary.x, maxBoundary.x);
+        float z = Random.Range(minBoundary.z, maxBoundary.z);
+        Vector3 direction = new Vector3(x,0,z).normalized;
+
+        Vector3 newPos = transform.position + direction;
+
+        if(newPos.x >= minBoundary.x && newPos.z >= minBoundary.z && newPos.x <= maxBoundary.x && newPos.z <= maxBoundary.z)
+        {
+            rb.velocity = newPos;
         }
     }
 
