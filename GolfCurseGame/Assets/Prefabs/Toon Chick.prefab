@@ -129,8 +129,8 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3540170761302344467}
   serializedVersion: 2
-  m_Mass: 100
-  m_Drag: 100
+  m_Mass: 1
+  m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -200,7 +200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9427aed7ab213fa4485cccc7938057bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthbar: {fileID: 1360811632474296633, guid: 7033816884de8744aa2831018c66d8b5, type: 3}
   healthbarOffset: {x: 0, y: 30, z: 0}
   health: 10
   attack: 5

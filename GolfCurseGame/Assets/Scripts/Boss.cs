@@ -22,8 +22,10 @@ public class Boss : MonoBehaviour
     private Rigidbody rb;
     private NavMeshAgent agent;
     private Spawner[] chickenNest;
+    private ChickenHead head;
 
     private bool isAttacking, hasHitPlayer;
+    public bool canAttack;
     private float attackCooldown = 0, moveCooldown = 0.1f, maxMovementCooldown = 2f, spawnCooldown = 10f, currentSpawnCooldown;
     float MaxHealth;
 
@@ -36,32 +38,36 @@ public class Boss : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
         chickenNest = FindObjectsOfType<Spawner>();
+        head = GetComponentInChildren<ChickenHead>();
 
         MaxHealth = bossStats.Health;
     }
 
     private void Update()
     {
-        int random = Random.Range(0, attackMoves.Length - 1);
-
-        Timer();
-
-        if (attackCooldown <= 0)
+        if (canAttack)
         {
-            TriggerAttack(random);
-        }
+            int random = Random.Range(0, attackMoves.Length - 1);
 
-        if(moveCooldown <= 0)
-        {
-            if (!CheckAnimationState("Run") && !CheckAnimationState("Eat"))
+            CoolDownTimer();
+
+            if (attackCooldown <= 0)
             {
-                Move();
+                TriggerAttack(random);
             }
-        }
 
-        if(bossStats.Health <= MaxHealth / 2 && currentSpawnCooldown <= 0)
-        {
-            SpawnChicks();
+            if (moveCooldown <= 0)
+            {
+                if (!CheckAnimationState("Run") && !CheckAnimationState("Eat"))
+                {
+                    Move();
+                }
+            }
+
+            if (bossStats.Health <= MaxHealth / 2 && currentSpawnCooldown <= 0)
+            {
+                SpawnChicks();
+            }
         }
     }
 
@@ -78,14 +84,9 @@ public class Boss : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.CompareTag("Player") && isAttacking)
-            hasHitPlayer = true;
-    }
-
     void TriggerAttack(int attackIndex)
     {
+        EnableHead();
         Debug.Log("ATTACKE");
         AttackMove attack = attackMoves[attackIndex];
         animator.SetTrigger(attack.animationTrigger);
@@ -94,8 +95,7 @@ public class Boss : MonoBehaviour
         if (hasHitPlayer)
         {
             hasHitPlayer = false;
-            if(!player)
-            player.TakeDamage(attack.damageMultiplier * bossStats.Attack);
+            head.damage = attack.damageMultiplier * bossStats.Attack;
         }
 
         if (attack.dashAttack)
@@ -132,12 +132,40 @@ public class Boss : MonoBehaviour
             animator.SetBool("isWalking", false);
         }
     }
+    void SpawnChicks()
+    {
+        Debug.Log("Spawning Chicks");
+        foreach (Spawner s in chickenNest)
+        {
+            s.SpawnEnemy();
+        }
 
-    void Timer()
+        currentSpawnCooldown = spawnCooldown;
+    }
+
+    void EnableHead()
+    {
+        head.enabled = true;
+    }
+
+    void DisableHead()
+    {
+        head.enabled = false;
+    }
+
+    public IEnumerator BossSceneAnimation(float delay)
+    {
+        animator.SetTrigger("TurnHead");
+        yield return new WaitForSeconds(delay);
+        canAttack = true;
+    }
+
+    void CoolDownTimer()
     {
         if (attackCooldown > 0)
         {
             attackCooldown -= Time.deltaTime;
+            DisableHead();
         }
 
         if (moveCooldown > 0)
@@ -151,16 +179,6 @@ public class Boss : MonoBehaviour
         }
     }
 
-    void SpawnChicks()
-    {
-        Debug.Log("Spawning Chicks");
-        foreach(Spawner s in chickenNest)
-        {
-            s.SpawnEnemy();
-        }
-
-        currentSpawnCooldown = spawnCooldown;
-    }
     /// <summary>
     /// struct for handling boss attack patterns
     /// </summary>
