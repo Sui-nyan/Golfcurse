@@ -50,14 +50,21 @@ public class Boss : MonoBehaviour
             TriggerAttack(random);
         }
 
-        if (!isAttacking)
+        if (isAttacking)
         {
             //Move();
         }
 
     }
 
-    bool checkIfAttacking() { return true; }
+    void checkIfAttacking() 
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("Run") || animator.GetCurrentAnimatorStateInfo(0).IsName("Eat") 
+            || animator.GetCurrentAnimatorStateInfo(0).IsName("Turn Head")) {
+            isAttacking = true;
+        } else
+            isAttacking = false;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
