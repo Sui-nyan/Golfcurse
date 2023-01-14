@@ -6,17 +6,17 @@ public class Door : MonoBehaviour
     public bool isPassable;
     public bool enteredDoor;
 
-
+    
     /// <summary>
     /// teleports the player if in range
     /// </summary>
     /// <param name="other"></param>
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (isPassable)
+        if (isPassable && !enteredDoor)
         {
             Debug.Log("Standing at door");
-            if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
+            if (other.CompareTag("Player"))
             {
                 Debug.Log("Entering Door...");
                 StartCoroutine(Teleport(other.gameObject));
@@ -24,7 +24,6 @@ public class Door : MonoBehaviour
             }
         }
     }
-
 
     /// <summary>
     /// Resets player position 

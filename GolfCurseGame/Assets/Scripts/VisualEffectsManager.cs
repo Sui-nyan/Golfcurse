@@ -26,7 +26,8 @@ public class VisualEffectsManager : MonoBehaviour
     public static void OnDeath(GameObject gameObject)
     {
         Debug.Log("Defeated " + gameObject.name);
-        ParticleSystem p = GameObject.Instantiate<ParticleSystem>(deathVFXs[gameObject.tag], gameObject.transform.position, Quaternion.identity);
+        var vfx = deathVFXs[gameObject.tag];
+        ParticleSystem p = Instantiate<ParticleSystem>(vfx, gameObject.transform.position, Quaternion.identity);
         Destroy(p, p.main.duration);
     }
 }

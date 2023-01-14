@@ -63,6 +63,6 @@ public class DungeonManager : MonoBehaviour
     public void LoadNextDungeonRoom()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Additive);
-        gui.TransistionOut();
+        //gui.TransistionOut();
     }
 }

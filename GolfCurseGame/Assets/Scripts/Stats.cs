@@ -5,9 +5,9 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
-    [SerializeField]
     private Healthbar healthbar;
-    public Vector3 healthbarOffset = new Vector3(0, 30, 0);
+
+    [SerializeField] private Vector3 healthbarOffset = new Vector3(0, 30, 0);
     public float Health => health;
     public float Attack => attack;
     [SerializeField] private float health;
@@ -17,20 +17,30 @@ public class Stats : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        if(!healthbar) 
-            healthbar = Instantiate<Healthbar>(healthbar);
+
+        // If there's no healthbar
+        if (!healthbar)
+        {
+            var prefab = Resources.Load<Healthbar>("EnemyHealthbar");
+            var canvas = FindObjectOfType<Canvas>();
+            healthbar = Instantiate<Healthbar>(prefab, canvas.transform);
+        }
+
         healthbar.SetMaxSliderValue(health);
     }
 
     private void Update()
     {
-        if(healthbar)
-        healthbar.transform.position = Camera.main.WorldToScreenPoint(transform.position) + healthbarOffset;
+        if (healthbar)
+        {
+            healthbar.transform.position = Camera.main.WorldToScreenPoint(transform.position) + healthbarOffset;
+        }
     }
+
     public void TakeDamage(float damage)
     {
         health -= damage;
-        if(healthbar) healthbar.SetHeath(health);
+        if (healthbar) healthbar.SetHeath(health);
 
         if (health <= 0)
         {
@@ -44,5 +54,4 @@ public class Stats : MonoBehaviour
     {
         rb.AddForce(Vector3.back * thrust, ForceMode.Impulse);
     }
-
 }
