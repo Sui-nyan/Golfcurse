@@ -2,41 +2,76 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    private Player player;
+    private Stats player;
     private Stats bossStats;
     private Animator animator;
+    private Rigidbody rb;
 
     [SerializeField]
-    private AttackMove[] attackMoves;
+    private AttackMove[] attackMoves = new AttackMove[]
+    {
+        //new AttackMove("TurnHead", 1f, 5f),
+        //new AttackMove("Eat", 0.5f, 3f),
+        new AttackMove("Run", 1.5f, 8f, true, 5f)
+    };
+
     bool isAttacking;
+    bool hasHitPlayer;
+    float attackCooldown = 0;
+    public bool triggerdash;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        player = FindObjectOfType<Player>();
+        //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>();
         bossStats = GetComponent<Stats>();
         animator = GetComponent<Animator>();
-
-        StartSceneAnimation();
+        rb = GetComponent<Rigidbody>();
+        rb.centerOfMass = new Vector3(0, 0, 5);
     }
 
     private void Update()
     {
         int random = Random.Range(0, attackMoves.Length - 1);
-        TriggerAttack(random);
+
+        if (attackCooldown > 0)
+            attackCooldown -= Time.deltaTime;
+
+        if (attackCooldown <= 0)
+        {
+            TriggerAttack(random);
+        }
+        
     }
 
-    /// <summary>
-    /// Sets animation that plays, when player encounters boss
-    /// </summary>
-    void StartSceneAnimation()
+    private void OnTriggerEnter(Collider other)
     {
-        animator.SetTrigger("TurnHead");
+        if(other.CompareTag("Player") && isAttacking)
+            hasHitPlayer = true;
     }
 
     void TriggerAttack(int attackIndex)
     {
         isAttacking = true;
+        AttackMove attack = attackMoves[attackIndex];
+        animator.SetTrigger(attack.animationTrigger);
+        attackCooldown = attack.cooldown;
+
+        if (hasHitPlayer)
+        {
+            hasHitPlayer = false;
+            if(!player)
+            player.TakeDamage(attack.damageMultiplier * bossStats.Attack);
+        }
+
+        if (attack.dashAttack || triggerdash)
+        {
+            triggerdash = false;
+            rb.velocity = transform.forward * attack.velocity;
+
+            Debug.Log("force");
+        }
     }
 
 
@@ -46,17 +81,29 @@ public class Boss : MonoBehaviour
     public class AttackMove
     {
         //Corresponding attack animation
-        string animationTrigger;
+        public string animationTrigger;
         //Attack damage dealt
-        float damage;
+        public float damageMultiplier;
         //cooldown after next attack occurs
-        float cooldown;
+        public float cooldown;
+        //to dash or not to dash
+        public bool dashAttack;
+        public float velocity;
 
         public AttackMove(string animationTrigger, float damage, float cooldown)
         {
             this.animationTrigger = animationTrigger;
-            this.damage = damage;
+            this.damageMultiplier = damage;
             this.cooldown = cooldown;
+        }
+
+        public AttackMove(string animationTrigger, float damage, float cooldown, bool dashAttack, float velocity)
+        {
+            this.animationTrigger = animationTrigger;
+            this.damageMultiplier = damage;
+            this.cooldown = cooldown;
+            this.dashAttack = dashAttack;
+            this.velocity = velocity;
         }
     }
 }
