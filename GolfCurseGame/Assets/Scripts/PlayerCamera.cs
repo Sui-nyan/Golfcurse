@@ -25,11 +25,11 @@ public class PlayerCamera : MonoBehaviour
         Vector3 targetPos = playerposition - offset;
         float distance = Vector3.Distance(transform.position, targetPos);
 
-        bool isWithinBounds = targetPos.x <= maxCameraBound.x && targetPos.x >= minCameraBound.x && targetPos.z <= maxCameraBound.z && targetPos.z >= minCameraBound.z;
+        targetPos.x = Mathf.Clamp(targetPos.x, minCameraBound.x, maxCameraBound.x);
+        targetPos.y = targetPos.y;
+        targetPos.z = Mathf.Clamp(targetPos.z, minCameraBound.z, maxCameraBound.z);
         
-        if (isWithinBounds)
-        {
-            transform.position = Vector3.Lerp(transform.position, targetPos, speed/distance);
-        }
+        
+        transform.position = Vector3.Lerp(transform.position, targetPos, speed/distance);
     }
 }
