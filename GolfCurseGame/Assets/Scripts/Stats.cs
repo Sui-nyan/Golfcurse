@@ -31,7 +31,7 @@ public class Stats : MonoBehaviour
 
     private void Update()
     {
-        if (healthbar)
+        if (healthbar && Camera.main)
         {
             healthbar.transform.position = Camera.main.WorldToScreenPoint(transform.position) + healthbarOffset;
         }
