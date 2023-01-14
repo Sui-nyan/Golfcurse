@@ -6,7 +6,10 @@ public class Boss : MonoBehaviour
     private Stats bossStats;
     private Animator animator;
 
-    private AttackMove attackMoves;
+    [SerializeField]
+    private AttackMove[] attackMoves;
+    bool isAttacking;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -17,6 +20,12 @@ public class Boss : MonoBehaviour
         StartSceneAnimation();
     }
 
+    private void Update()
+    {
+        int random = Random.Range(0, attackMoves.Length - 1);
+        TriggerAttack(random);
+    }
+
     /// <summary>
     /// Sets animation that plays, when player encounters boss
     /// </summary>
@@ -25,9 +34,9 @@ public class Boss : MonoBehaviour
         animator.SetTrigger("TurnHead");
     }
 
-    void TriggerAttack()
+    void TriggerAttack(int attackIndex)
     {
-
+        isAttacking = true;
     }
 
 

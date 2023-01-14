@@ -7,6 +7,7 @@ public class PlayerCombat : MonoBehaviour
 {
     private Animator animator;
     public LayerMask enemyMask;
+    private Stats stats;
     public Weapon weapon;
     
     private float comboTimer = 0;
@@ -16,7 +17,7 @@ public class PlayerCombat : MonoBehaviour
     {
         new Attack("h1", 0.4f, 1.2f, 1),
         new Attack("h2", 0.4f, 1f, 1.5f),
-        new Attack("h3", 1f, 1f, 5f)
+        new Attack("h3", 1f, 1f, 2f)
     };
 
     [SerializeField] private bool isAnimationLocked = false;
@@ -27,6 +28,7 @@ public class PlayerCombat : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         weapon = GetComponentInChildren<Weapon>();
+        stats = GetComponent<Stats>();
     }
 
     private void Update()
@@ -72,7 +74,7 @@ public class PlayerCombat : MonoBehaviour
             comboTimer = attack.maxDelay;
             isAnimationLocked = true;
             animator.SetTrigger(attack.triggerName);
-            weapon.damage = attack.damage;
+            weapon.damage = attack.damageMultiplier * stats.Attack;
             EnableWeapon();
             Debug.Log("Attack" + attackIndex);
             return true;
@@ -103,13 +105,13 @@ public class Attack
     // max delay between attacks, determines IsAttacking (cannot run)
     public float maxDelay;
     // DAMAGE DEALT
-    public float damage;
+    public float damageMultiplier;
 
     public Attack(string triggerName, float minDelay, float maxDelay, float damage)
     {
         this.triggerName = triggerName;
         this.minDelay = minDelay;
         this.maxDelay = maxDelay;
-        this.damage = damage;
+        this.damageMultiplier = damage;
     }
 }
