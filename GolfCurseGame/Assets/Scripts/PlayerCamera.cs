@@ -1,17 +1,16 @@
-using System.Collections;
 using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    public Vector3 maxCameraBound;
-    public Vector3 minCameraBound;
-    public GameObject player;
-    private float speed = 0.1f;
-    public Vector3 offset;
+    public GameObject target;
+    public Vector3 minTargetBound = new Vector3(-10, 0, -10);
+    public Vector3 maxTargetBound = new Vector3(10, 0, 10);
+    public float cameraFollowSpeed = 0.5f;
+    public Vector3 cameraOffset = new Vector3(0, 0, -20);
 
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        target = GameObject.FindGameObjectWithTag("Player");
     }
 
     void FixedUpdate()
@@ -21,15 +20,22 @@ public class PlayerCamera : MonoBehaviour
 
     void FollowPlayer()
     {
-        Vector3 playerposition = player.transform.position;
-        Vector3 targetPos = playerposition - offset;
-        float distance = Vector3.Distance(transform.position, targetPos);
+        Vector3 playerPos = target.transform.position;
+        Vector3 boundedPosition = new Vector3(Mathf.Clamp(playerPos.x, minTargetBound.x, maxTargetBound.x),
+            playerPos.y, Mathf.Clamp(playerPos.z, minTargetBound.z, maxTargetBound.z));
 
-        targetPos.x = Mathf.Clamp(targetPos.x, minCameraBound.x, maxCameraBound.x);
-        targetPos.y = targetPos.y;
-        targetPos.z = Mathf.Clamp(targetPos.z, minCameraBound.z, maxCameraBound.z);
-        
-        
-        transform.position = Vector3.Lerp(transform.position, targetPos, speed/distance);
+        Transform cameraTransform = transform;
+        Vector3 cameraPos = cameraTransform.position;
+        var offset = cameraTransform.rotation * cameraOffset;
+        float t = cameraFollowSpeed / Vector3.Distance(cameraPos, boundedPosition);
+        transform.position = Vector3.Lerp(cameraPos, boundedPosition + offset, t);
+    }
+
+    private void OnDrawGizmos()
+    {
+        var center = (minTargetBound + maxTargetBound);
+        var size = (minTargetBound - maxTargetBound);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(center, new Vector3(Mathf.Abs(size.x), Mathf.Abs(size.y), Mathf.Abs(size.z)));
     }
 }
