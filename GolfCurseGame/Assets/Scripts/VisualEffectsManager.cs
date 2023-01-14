@@ -18,6 +18,11 @@ public class VisualEffectsManager : MonoBehaviour
             if(deathVFX[i]) deathVFXs.Add(deathKeys[i], deathVFX[i]);
         }
     }
+
+    /// <summary>
+    /// handles vfx for defeated objects
+    /// </summary>
+    /// <param name="gameObject"></param>
     public static void OnDeath(GameObject gameObject)
     {
         Debug.Log("Defeated " + gameObject.name);

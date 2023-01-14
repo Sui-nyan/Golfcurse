@@ -6,10 +6,16 @@ public class Door : MonoBehaviour
     public bool isPassable;
     public bool enteredDoor;
 
+
+    /// <summary>
+    /// teleports the player if in range
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerStay(Collider other)
     {
         if (isPassable)
         {
+            Debug.Log("Standing at door");
             if (other.CompareTag("Player") && Input.GetKeyDown(KeyCode.Space))
             {
                 Debug.Log("Entering Door...");
@@ -19,6 +25,12 @@ public class Door : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// Resets player position 
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
     IEnumerator Teleport(GameObject player)
     {
         Debug.Log("Teleporting..." + player.transform.position);
@@ -28,7 +40,7 @@ public class Door : MonoBehaviour
         PlayerScript.enabled = false;
 
         yield return new WaitForSeconds(0.2f);
-        player.transform.position = new Vector3(0, 0, 10);
+        player.transform.position = new Vector3(0, 0, 0);
         yield return new WaitForSeconds(0.2f);
 
         PlayerScript.enabled = true;

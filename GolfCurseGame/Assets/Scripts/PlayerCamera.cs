@@ -32,7 +32,4 @@ public class PlayerCamera : MonoBehaviour
             transform.position = Vector3.Lerp(transform.position, targetPos, speed/distance);
         }
     }
-
-
-
 }

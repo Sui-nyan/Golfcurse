@@ -22,13 +22,16 @@ public class DungeonManager : MonoBehaviour
         gui = GetComponent<GUIManager>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         CheckEnemies();
         if (isRoomCleared) OpenDoors();
-        
+
+
         if (door.enteredDoor)
             LoadNextDungeonRoom();
+            
+        door.enteredDoor = false;
     }
 
 
