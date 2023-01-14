@@ -28,7 +28,8 @@ public class Enemy : MonoBehaviour
     {
         animator.SetBool("Run", false);
 
-        ChasePlayer();
+        if(player)
+            ChasePlayer();
     }
 
     /// <summary>
