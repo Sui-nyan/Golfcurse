@@ -1,11 +1,14 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Player : MonoBehaviour
 {
     private CharacterController controller;
     private Animator animator;
     private PlayerCombat combat;
+    private Camera playerCamera;
+    [Tooltip("Movement is relative to camera angle")][SerializeField] private bool relativeMovement;
 
     [SerializeField] private float speed = 5f;
 
@@ -17,6 +20,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         combat = GetComponent<PlayerCombat>();
+        playerCamera = FindObjectOfType<PlayerCamera>()?.GetComponent<Camera>();
     }
 
     void Update()
@@ -30,6 +34,14 @@ public class Player : MonoBehaviour
         float z = Input.GetAxis("Vertical");
 
         direction = new Vector3(x, 0, z);
+        
+        Vector3 TransformInputToCamera(Vector3 dir, Camera cam)
+        {
+            Quaternion rot = cam.transform.rotation;
+            rot.x = 0;
+            return  rot * dir;
+        }
+        if (relativeMovement) direction = TransformInputToCamera(direction, playerCamera);
     }
     
     private void FixedUpdate()
