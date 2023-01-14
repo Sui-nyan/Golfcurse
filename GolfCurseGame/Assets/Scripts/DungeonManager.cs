@@ -5,33 +5,49 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
-    private GameObject[] enemies;
     [SerializeField] private GameObject player;
     [SerializeField] Camera playerCamera;
+
+    private GameObject[] enemies;
+    
     private Door door;
+    private GameObject room;
     private GUIManager gui;
 
     private bool isRoomCleared;
     // Start is called before the first frame update
 
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
     private void Start()
     {
-        door = FindObjectOfType<Door>();
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        door = FindObjectOfType<Door>();    
         gui = GetComponent<GUIManager>();
     }
 
-    private void FixedUpdate()
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        room = GameObject.FindGameObjectWithTag("Room");
+    }
+
+    private void Update()
     {
         CheckEnemies();
-        if (isRoomCleared) OpenDoors();
-
+        if (isRoomCleared)
+        {
+            OpenDoors();
+        }
 
         if (door.enteredDoor)
+        {
+            door.enteredDoor = false;
             LoadNextDungeonRoom();
-            
-        door.enteredDoor = false;
+        }
     }
 
 
@@ -62,7 +78,13 @@ public class DungeonManager : MonoBehaviour
 
     public void LoadNextDungeonRoom()
     {
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (sceneIndex == 1)
+            Destroy(room);
+
+        else SceneManager.UnloadScene(sceneIndex);
+        isRoomCleared = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Additive);
-        //gui.TransistionOut();
+        gui.TransistionOut();
     }
 }

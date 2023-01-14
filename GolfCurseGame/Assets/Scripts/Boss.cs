@@ -5,6 +5,8 @@ public class Boss : MonoBehaviour
     private Player player;
     private Stats bossStats;
     private Animator animator;
+
+    private AttackMove attackMoves;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,11 +25,16 @@ public class Boss : MonoBehaviour
         animator.SetTrigger("TurnHead");
     }
 
+    void TriggerAttack()
+    {
+
+    }
+
 
     /// <summary>
     /// struct for handling boss attack patterns
     /// </summary>
-    public class Attack
+    public class AttackMove
     {
         //Corresponding attack animation
         string animationTrigger;
@@ -35,23 +42,12 @@ public class Boss : MonoBehaviour
         float damage;
         //cooldown after next attack occurs
         float cooldown;
-        //optional particles that spawn at attack
-        ParticleSystem particle;
 
-        public Attack(string animationTrigger, float damage, float cooldown)
+        public AttackMove(string animationTrigger, float damage, float cooldown)
         {
             this.animationTrigger = animationTrigger;
             this.damage = damage;
             this.cooldown = cooldown;
-        }
-
-        public Attack(string animationTrigger, float damage, ParticleSystem particle, float cooldown)
-        {
-            this.animationTrigger = animationTrigger;
-            this.damage = damage;
-            this.particle = particle;
-            this.cooldown = cooldown;
-            
         }
     }
 }

@@ -19,7 +19,7 @@ public class Door : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 Debug.Log("Entering Door...");
-                StartCoroutine(Teleport(other.gameObject));
+                Teleport(other.gameObject);
                 enteredDoor = true;
             }
         }
@@ -30,18 +30,13 @@ public class Door : MonoBehaviour
     /// </summary>
     /// <param name="player"></param>
     /// <returns></returns>
-    IEnumerator Teleport(GameObject player)
+    void Teleport(GameObject player)
     {
         Debug.Log("Teleporting..." + player.transform.position);
 
         player.TryGetComponent<Player>(out Player PlayerScript);
 
-        PlayerScript.enabled = false;
-
-        yield return new WaitForSeconds(0.2f);
         player.transform.position = new Vector3(0, 0, 0);
-        yield return new WaitForSeconds(0.2f);
-
-        PlayerScript.enabled = true;
+        Physics.SyncTransforms();
     }
 }
