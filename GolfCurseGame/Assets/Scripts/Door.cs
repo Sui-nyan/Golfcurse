@@ -26,7 +26,6 @@ public class Door : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 Debug.Log("Entering Door...");
-                Teleport(other.gameObject);
                 FindObjectOfType<DungeonManager>().LoadNextDungeonRoom();
             }
         }
@@ -41,20 +40,5 @@ public class Door : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-    }
-
-    /// <summary>
-    /// Resets player position 
-    /// </summary>
-    /// <param name="player"></param>
-    /// <returns></returns>
-    void Teleport(GameObject player)
-    {
-        Debug.Log("Teleporting..." + player.transform.position);
-
-        player.TryGetComponent<Player>(out Player PlayerScript);
-
-        player.transform.position = new Vector3(0, 0, 0);
-        Physics.SyncTransforms();
     }
 }

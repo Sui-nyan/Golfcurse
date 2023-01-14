@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
-    [SerializeField] private GameObject player;
     [SerializeField] Camera mainCamera;
 
     private GameObject[] enemies;
@@ -29,7 +28,7 @@ public class DungeonManager : MonoBehaviour
 
     private void Start()
     {
-        gui = GetComponent<GUIManager>();
+        gui = FindObjectOfType<GUIManager>();
         mainCamera = FindObjectOfType<PlayerCamera>().GetComponent<Camera>();
     }
 
@@ -42,7 +41,8 @@ public class DungeonManager : MonoBehaviour
         room = GameObject.FindGameObjectWithTag("Room");
         roomIsCleared = false;
         currentSceneIndex = scene.buildIndex;
-
+        Physics.SyncTransforms();
+        
         if (scene.name.Equals("BossScene"))
         {
             Debug.Log("BOSS ROOM");
@@ -66,6 +66,11 @@ public class DungeonManager : MonoBehaviour
                 playerCam.cameraFollowSpeed = prevSpeed;
                 playerCam.targetZoom = 4;
             }
+        }
+
+        if (gui)
+        {
+            gui.TransitionIn();
         }
     }
 
@@ -101,6 +106,10 @@ public class DungeonManager : MonoBehaviour
     {
         IEnumerator ChangeScene(int targetSceneIndex)
         {
+            gui.TransitionOut();
+            yield return new WaitForSeconds(1);
+            Teleport(FindObjectOfType<Player>().gameObject);
+            
             if (currentSceneIndex == 1)
             {
                 Destroy(room);
@@ -110,7 +119,6 @@ public class DungeonManager : MonoBehaviour
                 yield return SceneManager.UnloadSceneAsync(currentSceneIndex);
             }
 
-            gui.TransistionOut();
             yield return SceneManager.LoadSceneAsync(targetSceneIndex, LoadSceneMode.Additive);
         }
 
@@ -119,5 +127,16 @@ public class DungeonManager : MonoBehaviour
             isLoading = true;
             StartCoroutine(ChangeScene(currentSceneIndex + 1));
         }
+    }
+    
+    /// <summary>
+    /// Resets player position 
+    /// </summary>
+    /// <param name="player"></param>
+    /// <returns></returns>
+    void Teleport(GameObject player)
+    {
+        Debug.Log("Teleporting..." + player.transform.position);
+        player.transform.position = Vector3.zero;
     }
 }

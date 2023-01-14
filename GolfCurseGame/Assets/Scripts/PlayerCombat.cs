@@ -33,7 +33,6 @@ public class PlayerCombat : MonoBehaviour
 
     private void Update()
     {
-        animator.SetBool("isWalking", false);
         // time passes
         if (comboTimer > 0)
         {
