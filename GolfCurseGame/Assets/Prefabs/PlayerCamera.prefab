@@ -57,7 +57,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.2
-  far clip plane: 1000
+  far clip plane: 100
   field of view: 60
   orthographic: 1
   orthographic size: 3
@@ -96,7 +96,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b45fa62ee0d304a4291e66bb98ecae15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCameraBound: {x: 2, y: 0, z: 2}
-  minCameraBound: {x: -12, y: 0, z: -12}
-  player: {fileID: 0}
-  offset: {x: 5, y: -4, z: 5}
+  target: {fileID: 0}
+  minTargetBound: {x: -10, y: 0, z: -10}
+  maxTargetBound: {x: 10, y: 0, z: 10}
+  cameraFollowSpeed: 0.5
+  cameraOffset: {x: 0, y: 1, z: -20}
+  targetZoom: 3

@@ -1,90 +1,123 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DungeonManager : MonoBehaviour
 {
     [SerializeField] private GameObject player;
-    [SerializeField] Camera playerCamera;
+    [SerializeField] Camera mainCamera;
 
     private GameObject[] enemies;
-    
-    private Door door;
+
     private GameObject room;
     private GUIManager gui;
+    private int currentSceneIndex;
+    private bool isLoading;
 
-    private bool isRoomCleared;
+    private bool roomIsCleared;
     // Start is called before the first frame update
 
+    public event Action OnRoomCleared;
 
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
+
 
     private void Start()
     {
-        door = FindObjectOfType<Door>();    
         gui = GetComponent<GUIManager>();
+        mainCamera = FindObjectOfType<PlayerCamera>().GetComponent<Camera>();
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log($"Loaded scene {scene.name}");
+        isLoading = false;
+
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         room = GameObject.FindGameObjectWithTag("Room");
+        roomIsCleared = false;
+        currentSceneIndex = scene.buildIndex;
+
+        if (scene.name.Equals("BossScene"))
+        {
+            Debug.Log("BOSS ROOM");
+            StartCoroutine(ChangeCameraTarget(FindObjectOfType<Boss>().gameObject, 2.5f));
+
+            IEnumerator ChangeCameraTarget(GameObject go, float delay)
+            {
+                var playerCam = mainCamera.GetComponent<PlayerCamera>();
+
+                Debug.Log("new Camera Target");
+                var prevTarget = playerCam.target;
+                var prevSpeed = playerCam.cameraFollowSpeed;
+                playerCam.target = go;
+                playerCam.cameraFollowSpeed = prevSpeed;
+                playerCam.targetZoom = 6;
+
+                yield return new WaitForSeconds(delay);
+                Debug.Log("Revert camera target");
+
+                playerCam.target = prevTarget;
+                playerCam.cameraFollowSpeed = prevSpeed;
+                playerCam.targetZoom = 4;
+            }
+        }
+    }
+
+    private void OnSceneUnloaded(Scene scene)
+    {
+        Debug.Log($"Unloaded scene {scene.name}");
     }
 
     private void Update()
     {
-        CheckEnemies();
-        if (isRoomCleared)
+        if (!roomIsCleared && AllEnemiesDead())
         {
-            OpenDoors();
-        }
-
-        if (door.enteredDoor)
-        {
-            door.enteredDoor = false;
-            LoadNextDungeonRoom();
+            Debug.Log("Room cleared");
+            roomIsCleared = true;
+            OnRoomCleared?.Invoke();
         }
     }
 
-
-    void OpenDoors()
+    bool AllEnemiesDead()
     {
-        if (door)
-        {
-            door.isPassable = true;
-            foreach(Transform child in door.transform)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-    }
-
-    void CheckEnemies()
-    {
-        foreach(GameObject go in enemies)
+        foreach (GameObject go in enemies)
         {
             if (go)
             {
-                isRoomCleared = false;
-                return;
+                return false;
             }
         }
-        isRoomCleared = true;
+
+        return true;
     }
 
     public void LoadNextDungeonRoom()
     {
-        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-        if (sceneIndex == 1)
-            Destroy(room);
+        IEnumerator ChangeScene(int targetSceneIndex)
+        {
+            if (currentSceneIndex == 1)
+            {
+                Destroy(room);
+            }
+            else
+            {
+                yield return SceneManager.UnloadSceneAsync(currentSceneIndex);
+            }
 
-        else SceneManager.UnloadScene(sceneIndex);
-        isRoomCleared = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1, LoadSceneMode.Additive);
-        gui.TransistionOut();
+            gui.TransistionOut();
+            yield return SceneManager.LoadSceneAsync(targetSceneIndex, LoadSceneMode.Additive);
+        }
+
+        if (!isLoading)
+        {
+            isLoading = true;
+            StartCoroutine(ChangeScene(currentSceneIndex + 1));
+        }
     }
 }
