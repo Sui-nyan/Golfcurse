@@ -31,12 +31,17 @@ public class Stats : MonoBehaviour
 
     private void Update()
     {
+        //healthbar follows the game object
         if (healthbar && Camera.main)
         {
             healthbar.transform.position = Camera.main.WorldToScreenPoint(transform.position) + healthbarOffset;
         }
     }
 
+    /// <summary>
+    /// handles health and what happens when health drops below 0
+    /// </summary>
+    /// <param name="damage"></param>
     public void TakeDamage(float damage)
     {
         health -= damage;
@@ -48,10 +53,5 @@ public class Stats : MonoBehaviour
             Destroy(healthbar.gameObject);
             VisualEffectsManager.OnDeath(gameObject);
         }
-    }
-
-    public void Knockback(float thrust)
-    {
-        rb.AddForce(Vector3.back * thrust, ForceMode.Impulse);
     }
 }

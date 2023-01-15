@@ -21,7 +21,9 @@ public class PlayerCamera : MonoBehaviour
     {
         FollowPlayer();
     }
-
+    /// <summary>
+    /// faces and follows the player based of an offset
+    /// </summary>
     void FollowPlayer()
     {
         Vector3 playerPos = target.transform.position;
@@ -41,7 +43,9 @@ public class PlayerCamera : MonoBehaviour
             _camera.orthographicSize = Mathf.Lerp(currentZoom, targetZoom, cameraFollowSpeed / zoomDiff / 5);
         }
     }
-
+    /// <summary>
+    /// tool for debuging draws the boundary of the camera position
+    /// </summary>
     private void OnDrawGizmos()
     {
         var center = (minTargetBound + maxTargetBound);

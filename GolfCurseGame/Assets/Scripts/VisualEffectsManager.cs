@@ -13,6 +13,7 @@ public class VisualEffectsManager : MonoBehaviour
     {
         deathVFXs = new Dictionary<string, ParticleSystem>();
 
+        //adds all elements to the dictionary for easier access
         for (int i = 0; i <= Mathf.Min(deathKeys.Length - 1 , deathVFX.Length - 1); i++)
         {
             if(deathVFX[i]) deathVFXs.Add(deathKeys[i], deathVFX[i]);

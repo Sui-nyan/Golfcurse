@@ -31,6 +31,9 @@ public class Door : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// destroys the gate so the door is passable
+    /// </summary>
     void OpenTheGates()
     {
         Debug.Log("Door opened");

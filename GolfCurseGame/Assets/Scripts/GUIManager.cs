@@ -16,7 +16,9 @@ public class GUIManager : MonoBehaviour
             TransitionAnimation =  GetComponentInChildren<Animator>();
         }
     }
-
+    /// <summary>
+    /// scene transition fade from black to new scene
+    /// </summary>
     public void TransitionIn()
     {
         if (TransitionAnimation)
@@ -25,7 +27,9 @@ public class GUIManager : MonoBehaviour
             TransitionAnimation.SetTrigger("FadeIn");
         }
     }
-
+    /// <summary>
+    /// scene transition fade to black
+    /// </summary>
     public void TransitionOut()
     {
         if (TransitionAnimation)
@@ -34,12 +38,17 @@ public class GUIManager : MonoBehaviour
             TransitionAnimation.SetTrigger("FadeOut");
         }
     }
+    /// <summary>
+    /// Transition and load first level
+    /// </summary>
     public void PlayGame()
     {
         SceneManager.LoadScene(1);
         TransitionIn();
     }
-
+    /// <summary>
+    /// Quits game
+    /// </summary>
     public void QuitGame()
     {
         Application.Quit();
