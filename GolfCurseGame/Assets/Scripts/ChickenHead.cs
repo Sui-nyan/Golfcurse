@@ -1,12 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ChickenHead : MonoBehaviour
 {
     public Collider collider;
-    public float damage = 10f;
-
+    public float damage;
 
     private void Start()
     {

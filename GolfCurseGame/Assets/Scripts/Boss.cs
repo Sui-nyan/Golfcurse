@@ -14,13 +14,14 @@ public class Boss : MonoBehaviour
     private AttackMove[] attackMoves = new AttackMove[]
     {
         new AttackMove("Eat", 0.5f, 3f),
-        new AttackMove("Run", 1.5f, 5f, true, 5f)
+        new AttackMove("Run", 1.5f, 10f, true, 5f)
     };
 
     private Stats bossStats;
     private Animator animator;
     private NavMeshAgent agent;
     private Spawner[] spawnPoints;
+    private Collider collider;
     private ChickenHead head;
     private ChickenAction prevAction = ChickenAction.Idle;
 
@@ -48,6 +49,7 @@ public class Boss : MonoBehaviour
         animator = GetComponent<Animator>();
         head = GetComponentInChildren<ChickenHead>();
         agent = GetComponent<NavMeshAgent>();
+        collider = GetComponent<Collider>();
 
         MaxHealth = bossStats.Health;
     }
@@ -123,6 +125,7 @@ public class Boss : MonoBehaviour
         if (hasHitPlayer)
         {
             hasHitPlayer = false;
+            collider.enabled = false;
             head.damage = attack.damageMultiplier * bossStats.Attack;
         }
 
@@ -133,6 +136,7 @@ public class Boss : MonoBehaviour
             agent.SetDestination(playerObject.transform.position);
             agent.velocity = (playerObject.transform.position - transform.position).normalized * attack.velocity;
             Debug.Log("force");
+            collider.enabled = true;
         }
     }
     /// <summary>
@@ -176,6 +180,15 @@ public class Boss : MonoBehaviour
         }
 
         currentSpawnCooldown = spawnCooldown;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            hasHitPlayer = true;
+            Stats player = other.GetComponent<Stats>();
+            player.TakeDamage(bossStats.Attack * 10f);
+        }
     }
     /// <summary>
     /// enables the head

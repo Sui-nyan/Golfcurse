@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 3541924025824356244}
   - component: {fileID: 3541924025824356241}
   m_Layer: 0
-  m_Name: Toon Chick
+  m_Name: Chick
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

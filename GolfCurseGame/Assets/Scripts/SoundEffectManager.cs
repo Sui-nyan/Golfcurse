@@ -1,23 +1,30 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SoundEffectManager : MonoBehaviour
 {
-    public string[] deathKeys;
-    public GameObject[] deathValues;
-    private Dictionary<string, AudioSource> deathSounds;
-
-    private void Start()
+    public SoundEffect[] sounds;
+    public void onDeath(GameObject gameObject)
     {
-        foreach(string s in deathKeys)
-        {
-            //Some mess to be impelemnted later
-        }
+        SoundEffect s = Array.Find(sounds, sound => sound.name == gameObject.name);
+        GameObject soundObject = new GameObject();
+        soundObject.transform.parent = gameObject.transform;
+        AudioSource source = soundObject.AddComponent<AudioSource>();
+        source.clip = s.audio;
+        source.volume = s.volume;
+        source.Play();
+        Destroy(soundObject, s.audio.length);
+        Debug.Log("Playing soud " + source.name);
     }
 
-    public static void onDeath(GameObject gameObject)
+    [Serializable]
+    public class SoundEffect
     {
-        //TODO
+        public string name;
+        public AudioClip audio;
+
+        [Range(0f, 1f)]
+        public float volume;
     }
 }

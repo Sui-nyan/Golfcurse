@@ -952,7 +952,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   collider: {fileID: 1739057312769157973}
   damage: 10
-  thrust: 5
 --- !u!65 &1739057312769157973
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1300,6 +1299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f44ca8bfccd261248b79fbf1232b0b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  relativeMovement: 0
   speed: 5
 --- !u!114 &1878715767326182130
 MonoBehaviour:
@@ -1321,15 +1321,15 @@ MonoBehaviour:
   - triggerName: h1
     minDelay: 0.4
     maxDelay: 1.2
-    damage: 1
+    damageMultiplier: 1
   - triggerName: h2
     minDelay: 0.4
     maxDelay: 1
-    damage: 1.5
+    damageMultiplier: 1.5
   - triggerName: h3
     minDelay: 1
     maxDelay: 1
-    damage: 5
+    damageMultiplier: 2
   isAnimationLocked: 0
 --- !u!143 &1878715767326182131
 CharacterController:
@@ -1359,7 +1359,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.25
+  m_Radius: 0.4
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0.55, z: 0}
@@ -1375,7 +1375,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9427aed7ab213fa4485cccc7938057bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthbar: {fileID: 0}
   healthbarOffset: {x: 0, y: 100, z: 0}
   health: 200
   attack: 10

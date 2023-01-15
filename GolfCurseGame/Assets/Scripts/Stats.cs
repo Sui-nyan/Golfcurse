@@ -3,24 +3,20 @@ using UnityEngine;
 public class Stats : MonoBehaviour
 {
     private Healthbar healthbar;
-
     [SerializeField] private Vector3 healthbarOffset = new Vector3(0, 30, 0);
     public float Health => health;
     public float Attack => attack;
     [SerializeField] private float health;
     [SerializeField] private float attack;
-    Rigidbody rb;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
         // If there's no healthbar
         if (!healthbar)
         {
             var prefab = Resources.Load<Healthbar>("EnemyHealthbar");
             var canvas = FindObjectOfType<Canvas>();
-            healthbar = Instantiate<Healthbar>(prefab, canvas.transform);
+            healthbar = Instantiate(prefab, canvas.transform);
         }
 
         healthbar.SetMaxSliderValue(health);
@@ -48,7 +44,8 @@ public class Stats : MonoBehaviour
         {
             Destroy(gameObject);
             Destroy(healthbar.gameObject);
-            VisualEffectsManager.OnDeath(gameObject);
+            FindObjectOfType<VisualEffectsManager>().OnDeath(gameObject);
+            FindObjectOfType<SoundEffectManager>().onDeath(gameObject);
         }
     }
 }

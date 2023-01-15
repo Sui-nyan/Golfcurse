@@ -118,6 +118,7 @@ public class DungeonManager : MonoBehaviour
     /// <returns>true when all enemy objects are destroyed</returns>
     bool AllEnemiesDead()
     {
+        enemies =  GameObject.FindGameObjectsWithTag("Enemy");
         foreach (GameObject go in enemies)
         {
             if (go)
