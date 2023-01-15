@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 
     private Animator animator;
     private Rigidbody rb;
-    private Stats stats;
+    private Stats enemyStats;
 
     private float attackrange = 1;
     private float attackCooldown = 1f;
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        stats = GetComponent<Stats>();
+        enemyStats = GetComponent<Stats>();
     }
 
     private void FixedUpdate()
@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour
     {
         animator.SetTrigger("Attack");
 
-        player.TakeDamage(stats.Attack);
+        player.TakeDamage(enemyStats.Attack);
         attackCooldown = 1f;
     }
 
