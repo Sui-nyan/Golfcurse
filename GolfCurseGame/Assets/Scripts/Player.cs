@@ -50,7 +50,7 @@ public class Player : MonoBehaviour
     }
 
     /// <summary>
-    /// player movement and walking animation
+    /// handles player movement and walking animation
     /// </summary>
     void HandlePlayerMovement()
     {
@@ -68,6 +68,7 @@ public class Player : MonoBehaviour
 
     /// <summary>
     /// player faces towards mouse cursor
+    /// the mouse cursor position is raycast to the ground
     /// </summary>
     void LookToMouse()
     {

@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
 
     private float attackrange = 1;
     private float attackCooldown = 1f;
-    // Start is called before the first frame update
+   
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
         enemyStats = GetComponent<Stats>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         animator.SetBool("Run", false);
 
@@ -58,7 +58,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// attacks if player is within range
     /// </summary>
-    /// <param name="other"></param>
+    /// <param name="other">colliding collider</param>
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -75,7 +75,7 @@ public class Enemy : MonoBehaviour
     /// <summary>
     /// attacks the player and resets the attack cooldown before initiating new attack
     /// </summary>
-    /// <param name="player"></param>
+    /// <param name="player">player to be attacked</param>
     void Attack(Stats player)
     {
         animator.SetTrigger("Attack");
@@ -84,6 +84,10 @@ public class Enemy : MonoBehaviour
         attackCooldown = 1f;
     }
 
+    /// <summary>
+    /// For debugging purposes draws the range
+    /// within the chicken can attack
+    /// </summary>
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;

@@ -21,7 +21,7 @@ public class Boss : MonoBehaviour
     private Animator animator;
     private Rigidbody rb;
     private NavMeshAgent agent;
-    private Spawner[] chickenNest;
+    private Spawner[] spawnPoints;
     private ChickenHead head;
 
     private bool isAttacking, hasHitPlayer;
@@ -37,7 +37,7 @@ public class Boss : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         agent = GetComponent<NavMeshAgent>();
-        chickenNest = FindObjectsOfType<Spawner>();
+        spawnPoints = FindObjectsOfType<Spawner>();
         head = GetComponentInChildren<ChickenHead>();
 
         MaxHealth = bossStats.Health;
@@ -48,7 +48,7 @@ public class Boss : MonoBehaviour
         if (canAttack)
         {
             int random = Random.Range(0, attackMoves.Length - 1);
-
+            //time passes
             CoolDownTimer();
 
             if (attackCooldown <= 0)
@@ -58,19 +58,24 @@ public class Boss : MonoBehaviour
 
             if (moveCooldown <= 0)
             {
+                //only moves, when it is not attacking
                 if (!CheckAnimationState("Run") && !CheckAnimationState("Eat"))
                 {
                     Move();
                 }
             }
-
+            //starts spawning chicks when health drops below half
             if (bossStats.Health <= MaxHealth / 2 && currentSpawnCooldown <= 0)
             {
                 SpawnChicks();
             }
         }
     }
-
+    /// <summary>
+    /// hecks whether certain animations are playing, it is used to check whether the boss is attacking or not
+    /// </summary>
+    /// <param name="animationname">the name for the animation to be checked</param>
+    /// <returns></returns>
     bool CheckAnimationState(string animationname) 
     {
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
@@ -83,7 +88,10 @@ public class Boss : MonoBehaviour
             return false;
         }
     }
-
+    /// <summary>
+    /// triggers an attack based of the attack move array that is defined at the top
+    /// </summary>
+    /// <param name="attackIndex">the attack that is executed</param>
     void TriggerAttack(int attackIndex)
     {
         EnableHead();
@@ -105,7 +113,9 @@ public class Boss : MonoBehaviour
             Debug.Log("force");
         }
     }
-
+    /// <summary>
+    /// moves the boss to a random position, after moving the chicken pauses for a random time
+    /// </summary>
     void Move()
     {
         Debug.Log("Moving");
@@ -132,34 +142,48 @@ public class Boss : MonoBehaviour
             animator.SetBool("isWalking", false);
         }
     }
+    /// <summary>
+    /// takes in spawners in the room and spawns one chicken from each spawnpoint
+    /// </summary>
     void SpawnChicks()
     {
         Debug.Log("Spawning Chicks");
-        foreach (Spawner s in chickenNest)
+        foreach (Spawner s in spawnPoints)
         {
             s.SpawnEnemy();
         }
 
         currentSpawnCooldown = spawnCooldown;
     }
-
+    /// <summary>
+    /// enables the head
+    /// </summary>
     void EnableHead()
     {
         head.enabled = true;
     }
-
+    /// <summary>
+    /// disables the head
+    /// </summary>
     void DisableHead()
     {
         head.enabled = false;
     }
-
+    /// <summary>
+    /// triggers an animation for when the boss scene is loaded
+    /// this method is public because it is used in the dungeonmanager
+    /// </summary>
+    /// <param name="delay"></param>
+    /// <returns></returns>
     public IEnumerator BossSceneAnimation(float delay)
     {
         animator.SetTrigger("TurnHead");
         yield return new WaitForSeconds(delay);
         canAttack = true;
     }
-
+    /// <summary>
+    /// counts cooldown down
+    /// </summary>
     void CoolDownTimer()
     {
         if (attackCooldown > 0)
@@ -180,7 +204,7 @@ public class Boss : MonoBehaviour
     }
 
     /// <summary>
-    /// struct for handling boss attack patterns
+    /// class for handling boss attack patterns
     /// </summary>
     public class AttackMove
     {

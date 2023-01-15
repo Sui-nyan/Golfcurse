@@ -8,7 +8,7 @@ public class GUIManager : MonoBehaviour
 {
 
     [SerializeField] private Animator TransitionAnimation;
-    // Start is called before the first frame update
+    
     void Start()
     {
         if (!TransitionAnimation)

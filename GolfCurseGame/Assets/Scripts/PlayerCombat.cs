@@ -61,8 +61,10 @@ public class PlayerCombat : MonoBehaviour
             DisableWeapon();
         }
     }
-
-
+    /// <summary>
+    /// triggers attacks based on animation and current attackindex
+    /// </summary>
+    /// <returns>whether an attack is currently triggered</returns>
     public bool TriggerAttack()
     {
         if (isAnimationLocked) return false;
@@ -82,19 +84,25 @@ public class PlayerCombat : MonoBehaviour
 
         return false;
     }
-
+    /// <summary>
+    /// enables weapon
+    /// </summary>
     void EnableWeapon()
     {
         weapon.enabled = true;
     }
-
+    /// <summary>
+    /// disables weapon
+    /// </summary>
     void DisableWeapon()
     {
         weapon.enabled = false;
     }
 }
 
-    
+/// <summary>
+/// class for handling attack
+/// </summary>
 [Serializable]
 public class Attack
 {
