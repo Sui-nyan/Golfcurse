@@ -147,7 +147,10 @@ public class Boss : MonoBehaviour
         Debug.Log("Moving");
         if (prevAction == ChickenAction.Dash)
         {
-            agent.SetDestination(FindObjectOfType<Player>().transform.position);
+            if(FindObjectOfType<Player>() != null)
+            {
+                agent.SetDestination(FindObjectOfType<Player>().transform.position);
+            }
         } else
         {
             float x = Random.Range(minBoundary.x, maxBoundary.x);

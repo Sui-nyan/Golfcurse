@@ -13,6 +13,7 @@ public class DungeonManager : MonoBehaviour
     private NavMeshSurface navMesh;
     private GameObject room;
     private GUIManager gui;
+    private Player player;
     private int currentSceneIndex;
     private bool isLoading;
     private bool isBossRoom;
@@ -28,12 +29,17 @@ public class DungeonManager : MonoBehaviour
         navMesh = GetComponent<NavMeshSurface>();
     }
 
-
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
+    }
     private void Start()
     {
         gui = FindObjectOfType<GUIManager>();
-        mainCamera = FindObjectOfType<PlayerCamera>().GetComponent<Camera>();
+        mainCamera = Camera.main;
         OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Additive);
+        player = FindObjectOfType<Player>();
     }
 
     /// <summary>
@@ -50,7 +56,10 @@ public class DungeonManager : MonoBehaviour
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         room = GameObject.FindGameObjectWithTag("Room");
-        navMesh.BuildNavMesh();
+
+        if(navMesh)
+            navMesh.BuildNavMesh();
+        
         roomIsCleared = false;
         currentSceneIndex = scene.buildIndex;
         Physics.SyncTransforms();
@@ -113,6 +122,12 @@ public class DungeonManager : MonoBehaviour
             if(!chest)
                 Instantiate(chest);
         }
+
+        if (!player)
+        {
+            Debug.Log("player doesn't exist in scene");
+            StartCoroutine(gui.GameOver());
+        }
     }
     /// <summary>
     /// checks if enemies exist in scene
@@ -148,6 +163,7 @@ public class DungeonManager : MonoBehaviour
             }
             else
             {
+                Debug.Log(currentSceneIndex);
                 yield return SceneManager.UnloadSceneAsync(currentSceneIndex);
             }
 

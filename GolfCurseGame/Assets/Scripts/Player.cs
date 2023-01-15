@@ -81,11 +81,4 @@ public class Player : MonoBehaviour
 
         transform.LookAt(angle);
     }
-
-    private void OnDestroy()
-    {
-        FindObjectOfType<GUIManager>().GameOver();
-        playerCamera.enabled = false;
-        Debug.Log("Player died");
-    }
 }
