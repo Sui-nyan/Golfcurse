@@ -13,16 +13,21 @@ public class Boss : MonoBehaviour
     [SerializeField]
     private AttackMove[] attackMoves = new AttackMove[]
     {
-        new AttackMove("Eat", 0.5f, 6f),
-        new AttackMove("Run", 1.5f, 8f, true, 5f)
+        new AttackMove("Eat", 0.5f, 3f),
+        new AttackMove("Run", 1.5f, 5f, true, 5f)
     };
 
-    private Stats player, bossStats;
+    private Stats bossStats;
     private Animator animator;
-    private Rigidbody rb;
     private NavMeshAgent agent;
     private Spawner[] spawnPoints;
     private ChickenHead head;
+    private ChickenAction prevAction = ChickenAction.Idle;
+
+    enum ChickenAction
+    {
+        Move, Dash, Eat, Idle
+    }
 
     private bool isAttacking, hasHitPlayer;
     public bool canAttack;
@@ -33,21 +38,36 @@ public class Boss : MonoBehaviour
     void Start()
     {
         //player = GameObject.FindGameObjectWithTag("Player").GetComponent<Stats>();
+        
+        spawnPoints = FindObjectsOfType<Spawner>();
+    }
+
+    private void Awake()
+    {
         bossStats = GetComponent<Stats>();
         animator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
-        agent = GetComponent<NavMeshAgent>();
-        spawnPoints = FindObjectsOfType<Spawner>();
         head = GetComponentInChildren<ChickenHead>();
+        agent = GetComponent<NavMeshAgent>();
 
         MaxHealth = bossStats.Health;
     }
 
     private void Update()
     {
+        if (CheckAnimationState("Run"))
+        {
+            prevAction = ChickenAction.Dash;
+        } else if (CheckAnimationState("Eat"))
+        {
+            prevAction = ChickenAction.Eat;
+        } else if (CheckAnimationState("Move"))
+        {
+            prevAction = ChickenAction.Move;
+        }
+
         if (canAttack)
         {
-            int random = Random.Range(0, attackMoves.Length - 1);
+            int random = Random.Range(0, attackMoves.Length);
             //time passes
             CoolDownTimer();
 
@@ -108,8 +128,10 @@ public class Boss : MonoBehaviour
 
         if (attack.dashAttack)
         {
-            rb.AddForce(transform.forward * attack.velocity, ForceMode.VelocityChange);
-
+            Player playerObject = FindObjectOfType<Player>();
+            transform.LookAt(playerObject.transform.position);
+            agent.SetDestination(playerObject.transform.position);
+            agent.velocity = (playerObject.transform.position - transform.position).normalized * attack.velocity;
             Debug.Log("force");
         }
     }
@@ -119,18 +141,18 @@ public class Boss : MonoBehaviour
     void Move()
     {
         Debug.Log("Moving");
-        float x = Random.Range(minBoundary.x, maxBoundary.x);
-        float z = Random.Range(minBoundary.z, maxBoundary.z);
-        Vector3 direction = new Vector3(x,0,z);
-
-        Vector3 newPos = transform.position + direction;
-
-        if(newPos.x >= minBoundary.x && newPos.z >= minBoundary.z && newPos.x <= maxBoundary.x && newPos.z <= maxBoundary.z)
+        if (prevAction == ChickenAction.Dash)
         {
-            animator.SetBool("isWalking", true);
-            agent.SetDestination(newPos);
-            
+            agent.SetDestination(FindObjectOfType<Player>().transform.position);
+        } else
+        {
+            float x = Random.Range(minBoundary.x, maxBoundary.x);
+            float z = Random.Range(minBoundary.z, maxBoundary.z);
+            Vector3 targetPosition = new Vector3(x, 0, z);
+            agent.SetDestination(targetPosition);
         }
+
+        animator.SetBool("isWalking", true);
 
         moveCooldown = Random.Range(1f,maxMovementCooldown);
         StartCoroutine(endMovement());

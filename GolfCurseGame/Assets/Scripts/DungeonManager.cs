@@ -2,20 +2,22 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AI;
 
 public class DungeonManager : MonoBehaviour
 {
     [SerializeField] Camera mainCamera;
+    [SerializeField] RewardChest chest;
 
     private GameObject[] enemies;
-
+    private NavMeshSurface navMesh;
     private GameObject room;
     private GUIManager gui;
     private int currentSceneIndex;
     private bool isLoading;
-
+    private bool isBossRoom;
     private bool roomIsCleared;
-    // Start is called before the first frame update
+    
 
     public event Action OnRoomCleared;
 
@@ -23,6 +25,7 @@ public class DungeonManager : MonoBehaviour
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.sceneUnloaded += OnSceneUnloaded;
+        navMesh = GetComponent<NavMeshSurface>();
     }
 
 
@@ -30,9 +33,11 @@ public class DungeonManager : MonoBehaviour
     {
         gui = FindObjectOfType<GUIManager>();
         mainCamera = FindObjectOfType<PlayerCamera>().GetComponent<Camera>();
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Additive);
     }
 
     /// <summary>
+    /// event added to SceneManager
     /// gets the room and enemies and resets parameters
     /// if the boss scene is active the camera moves to the boss and the boss plays an animation
     /// </summary>
@@ -45,26 +50,29 @@ public class DungeonManager : MonoBehaviour
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         room = GameObject.FindGameObjectWithTag("Room");
+        navMesh.BuildNavMesh();
         roomIsCleared = false;
         currentSceneIndex = scene.buildIndex;
         Physics.SyncTransforms();
         
         if (scene.name.Equals("BossScene"))
         {
+            isBossRoom = true;
             Debug.Log("BOSS ROOM");
-            StartCoroutine(ChangeCameraTarget(FindObjectOfType<Boss>().gameObject, 2.5f));
+            StartCoroutine(ChangeCameraTarget(FindObjectOfType<Boss>(), 2.5f));
 
-            IEnumerator ChangeCameraTarget(GameObject go, float delay)
+            IEnumerator ChangeCameraTarget(Boss go, float delay)
             {
                 var playerCam = mainCamera.GetComponent<PlayerCamera>();
 
                 Debug.Log("new Camera Target");
                 var prevTarget = playerCam.target;
                 var prevSpeed = playerCam.cameraFollowSpeed;
-                playerCam.target = go;
+                playerCam.target = go.gameObject;
                 playerCam.cameraFollowSpeed = prevSpeed;
                 playerCam.targetZoom = 6;
 
+                StartCoroutine(go.BossSceneAnimation(delay));
                 yield return new WaitForSeconds(delay);
                 Debug.Log("Revert camera target");
 
@@ -96,6 +104,13 @@ public class DungeonManager : MonoBehaviour
             roomIsCleared = true;
             OnRoomCleared?.Invoke();
         }
+
+        if(isBossRoom && !roomIsCleared && AllEnemiesDead())
+        {
+            Debug.Log("Boss defeated");
+            if(!chest)
+                Instantiate(chest);
+        }
     }
     /// <summary>
     /// checks if enemies exist in scene
@@ -121,7 +136,7 @@ public class DungeonManager : MonoBehaviour
         IEnumerator ChangeScene(int targetSceneIndex)
         {
             gui.TransitionOut();
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1f);
             Teleport(FindObjectOfType<Player>().gameObject);
             
             if (currentSceneIndex == 1)

@@ -1,9 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Resources;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class RewardChest : MonoBehaviour
 {
@@ -15,19 +12,15 @@ public class RewardChest : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        //Placeholder
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            StartCoroutine(Open());
-        }
+        StartCoroutine(Open());
     }
-    
+
     /// <summary>
     /// Chest opens (animation)
     /// </summary>
-    IEnumerator Open()
+    public IEnumerator Open()
     {
         if (isOpen)
         {

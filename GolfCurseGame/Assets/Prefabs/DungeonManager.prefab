@@ -46,6 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
+  chest: {fileID: 8796839865569868345, guid: f56c229ce34d73c49ad91885d216f15f, type: 3}
 --- !u!114 &38392808929966111
 MonoBehaviour:
   m_ObjectHideFlags: 0
