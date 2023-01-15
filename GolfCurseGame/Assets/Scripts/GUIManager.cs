@@ -11,18 +11,33 @@ public class GUIManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        TransitionAnimation = GetComponentInChildren<Animator>();
+        if (!TransitionAnimation)
+        {
+            TransitionAnimation =  GetComponentInChildren<Animator>();
+        }
     }
 
-    public void TransistionOut()
+    public void TransitionIn()
     {
-        if(TransitionAnimation) TransitionAnimation.SetTrigger("changeScene");
+        if (TransitionAnimation)
+        {
+            Debug.Log("FadeIn");
+            TransitionAnimation.SetTrigger("FadeIn");
+        }
     }
 
+    public void TransitionOut()
+    {
+        if (TransitionAnimation)
+        {
+            Debug.Log("FadeOut");
+            TransitionAnimation.SetTrigger("FadeOut");
+        }
+    }
     public void PlayGame()
     {
         SceneManager.LoadScene(1);
-        TransistionOut();
+        TransitionIn();
     }
 
     public void QuitGame()
