@@ -55,7 +55,7 @@ public class GUIManager : MonoBehaviour
 
     public IEnumerator GameOver()
     {
-        FindObjectOfType<SoundEffectManager>().playSound("GameOver");
+        FindObjectOfType<SoundEffectManager>().PlaySound("GameOver");
         TransitionOut();
         yield return new WaitForSeconds(4f);
         

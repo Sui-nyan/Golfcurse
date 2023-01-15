@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundEffectManager : MonoBehaviour
 {
@@ -16,10 +17,14 @@ public class SoundEffectManager : MonoBehaviour
             s.source.loop = s.isLooping;
         }
 
-        playSound("MainTheme");
+        PlaySound("MainTheme");
+
+        if (SceneManager.GetActiveScene().name == "EndScene") 
+            PlaySound("End");
+
     }
 
-    public void playSound(string name)
+    public void PlaySound(string name)
     {
         SoundEffect s = Array.Find(sounds, sound => sound.name == name);
 

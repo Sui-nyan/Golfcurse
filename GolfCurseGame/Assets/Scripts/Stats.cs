@@ -47,7 +47,7 @@ public class Stats : MonoBehaviour
     {
         Destroy(gameObject);
         Destroy(healthbar.gameObject);
-        FindObjectOfType<SoundEffectManager>().playSound(_name);
+        FindObjectOfType<SoundEffectManager>().PlaySound(_name);
         FindObjectOfType<VisualEffectsManager>().OnDeath(_name, gameObject);
     }
 }
