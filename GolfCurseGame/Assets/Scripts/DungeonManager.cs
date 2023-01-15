@@ -7,8 +7,8 @@ using UnityEngine.AI;
 public class DungeonManager : MonoBehaviour
 {
     [SerializeField] Camera mainCamera;
-    [SerializeField] RewardChest chest;
 
+    private RewardChest chest;
     private GameObject[] enemies;
     private NavMeshSurface navMesh;
     private GameObject room;
@@ -119,8 +119,13 @@ public class DungeonManager : MonoBehaviour
         if(isBossRoom && AllEnemiesDead())
         {
             Debug.Log("Boss defeated");
-            if(!chest)
+            if (!chest)
+            {
+                chest = Resources.Load<RewardChest>("RewardChest");
                 Instantiate(chest);
+            }
+                
+            
         }
 
         if (!player)

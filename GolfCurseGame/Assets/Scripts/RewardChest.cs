@@ -14,7 +14,8 @@ public class RewardChest : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(Open());
+        if(other.CompareTag("Player"))
+            StartCoroutine(Open());
     }
 
     /// <summary>

@@ -55,9 +55,10 @@ public class GUIManager : MonoBehaviour
 
     public IEnumerator GameOver()
     {
-        TransitionOut();
         FindObjectOfType<SoundEffectManager>().playSound("GameOver");
-        yield return new WaitForSeconds(2f);
+        TransitionOut();
+        yield return new WaitForSeconds(4f);
+        
         SceneManager.LoadScene(0);
     }
 }

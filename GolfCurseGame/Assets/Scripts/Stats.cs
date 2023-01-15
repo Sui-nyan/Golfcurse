@@ -8,6 +8,7 @@ public class Stats : MonoBehaviour
     public float Attack => attack;
     [SerializeField] private float health;
     [SerializeField] private float attack;
+    public bool isAlive => health > 0;
 
     private void Start()
     {
@@ -37,18 +38,16 @@ public class Stats : MonoBehaviour
     /// <param name="damage">health to be substracted</param>
     public void TakeDamage(float damage)
     {
+        Debug.Log(gameObject.name + damage);
         health -= damage;
         if (healthbar) healthbar.SetHeath(health);
+    }
 
-        if (health <= 0)
-        {
-            Destroy(gameObject);
-            Destroy(healthbar.gameObject);
-            FindObjectOfType<VisualEffectsManager>().OnDeath(gameObject);
-            if(gameObject.CompareTag("Enemy"))
-                FindObjectOfType<SoundEffectManager>().playSound("Chick");
-            if(gameObject.CompareTag("Player"))
-                FindObjectOfType<SoundEffectManager>().playSound("Player");
-        }
+    public void onDying(string _name)
+    {
+        Destroy(gameObject);
+        Destroy(healthbar.gameObject);
+        FindObjectOfType<SoundEffectManager>().playSound(_name);
+        FindObjectOfType<VisualEffectsManager>().OnDeath(_name, gameObject);
     }
 }

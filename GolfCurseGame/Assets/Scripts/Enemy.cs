@@ -30,6 +30,11 @@ public class Enemy : MonoBehaviour
 
         if(player)
             ChasePlayer();
+
+        if(!enemyStats.isAlive)
+        {
+            enemyStats.onDying("Chick");
+        }
     }
 
     /// <summary>

@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -18,8 +20,7 @@ public class Player : MonoBehaviour
         controller = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
         combat = GetComponent<PlayerCombat>();
-        playerCamera = FindObjectOfType<PlayerCamera>()?.GetComponent<Camera>();
-    }
+        playerCamera = FindObjectOfType<PlayerCamera>()?.GetComponent<Camera>();    }
 
     void Update()
     {
@@ -80,5 +81,19 @@ public class Player : MonoBehaviour
         Debug.DrawLine(transform.position, angle, color: Color.yellow);
 
         transform.LookAt(angle);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Chest"))
+        {
+            StartCoroutine(loadEndScene());
+        }
+    }
+
+    IEnumerator loadEndScene()
+    {
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene("EndScene");
     }
 }

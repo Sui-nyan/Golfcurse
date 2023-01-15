@@ -30,7 +30,7 @@ public class Boss : MonoBehaviour
         Move, Dash, Eat, Idle
     }
 
-    private bool isAttacking, hasHitPlayer;
+    private bool hasHitPlayer;
     public bool canAttack;
     private float attackCooldown = 0, moveCooldown = 0.1f, maxMovementCooldown = 2f, spawnCooldown = 10f, currentSpawnCooldown;
     float MaxHealth;
@@ -91,6 +91,13 @@ public class Boss : MonoBehaviour
             {
                 SpawnChicks();
             }
+
+            Debug.Log(bossStats.Health);
+
+            if (!bossStats.isAlive)
+            {
+                bossStats.onDying("Chicken");
+            }
         }
     }
     /// <summary>
@@ -132,11 +139,14 @@ public class Boss : MonoBehaviour
         if (attack.dashAttack)
         {
             Player playerObject = FindObjectOfType<Player>();
-            transform.LookAt(playerObject.transform.position);
-            agent.SetDestination(playerObject.transform.position);
-            agent.velocity = (playerObject.transform.position - transform.position).normalized * attack.velocity;
-            Debug.Log("force");
-            collider.enabled = true;
+            if (playerObject)
+            {
+                transform.LookAt(playerObject.transform.position);
+                agent.SetDestination(playerObject.transform.position);
+                agent.velocity = (playerObject.transform.position - transform.position).normalized * attack.velocity;
+                Debug.Log("force");
+                collider.enabled = true;
+            }
         }
     }
     /// <summary>

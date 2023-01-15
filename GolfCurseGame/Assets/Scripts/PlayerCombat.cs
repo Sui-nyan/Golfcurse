@@ -58,7 +58,13 @@ public class PlayerCombat : MonoBehaviour
             {
                 animator.ResetTrigger(atk.triggerName);
             }
-            DisableWeapon();
+            if(weapon != null)
+                DisableWeapon();
+        }
+
+        if (!stats.isAlive)
+        {
+            stats.onDying("Player");
         }
     }
     /// <summary>
@@ -77,7 +83,10 @@ public class PlayerCombat : MonoBehaviour
             isAnimationLocked = true;
             animator.SetTrigger(attack.triggerName);
             weapon.damage = attack.damageMultiplier * stats.Attack;
-            EnableWeapon();
+
+            if(weapon != null)
+                EnableWeapon();
+
             Debug.Log("Attack" + attackIndex);
             return true;
         }
