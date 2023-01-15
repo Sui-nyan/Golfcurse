@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.SceneManagement;
 
 
@@ -50,5 +51,14 @@ public class GUIManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    public IEnumerator GameOver()
+    {
+        TransitionOut();
+        FindObjectOfType<SoundEffectManager>().playSound("GameOver");
+        GUI.TextField(new Rect(Screen.width / 2, Screen.height / 2, 100, 50 ), "GAME OVER");
+        yield return new WaitForSeconds(2f);
+        SceneManager.LoadScene(0);
     }
 }

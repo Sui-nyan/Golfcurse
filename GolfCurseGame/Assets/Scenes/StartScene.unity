@@ -130,6 +130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7752794077630163280, guid: b9231f4ee24eacc4c954ddafce3b3acd, type: 3}
+      propertyPath: minTargetBound.z
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 7752794077630163281, guid: b9231f4ee24eacc4c954ddafce3b3acd, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -189,7 +193,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3540170761302344467, guid: d52b25733e7789c4d96fed1546641738, type: 3}
       propertyPath: m_Name
-      value: Toon Chick (1)
+      value: Chick
       objectReference: {fileID: 0}
     - target: {fileID: 3541924025824356241, guid: d52b25733e7789c4d96fed1546641738, type: 3}
       propertyPath: healthbar
@@ -494,23 +498,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3540170761302344467, guid: d52b25733e7789c4d96fed1546641738, type: 3}
       propertyPath: m_Name
-      value: Toon Chick
-      objectReference: {fileID: 0}
-    - target: {fileID: 3541924025824356241, guid: d52b25733e7789c4d96fed1546641738, type: 3}
-      propertyPath: attack
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3541924025824356241, guid: d52b25733e7789c4d96fed1546641738, type: 3}
-      propertyPath: health
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 3541924025824356241, guid: d52b25733e7789c4d96fed1546641738, type: 3}
-      propertyPath: healthbar
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3541924025824356241, guid: d52b25733e7789c4d96fed1546641738, type: 3}
-      propertyPath: healthbarOffset.y
-      value: 30
+      value: Chick
       objectReference: {fileID: 0}
     - target: {fileID: 3542306628953625587, guid: d52b25733e7789c4d96fed1546641738, type: 3}
       propertyPath: m_RootOrder
@@ -678,6 +666,62 @@ PrefabInstance:
     - target: {fileID: 38392808929966098, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
       propertyPath: m_Name
       value: DungeonManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[1].name
+      value: MainTheme
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[2].name
+      value: Door
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[3].name
+      value: GameOver
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[0].audio
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e3ccbe4e8d70d648b9daab361bb02fb, type: 3}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[1].audio
+      value: 
+      objectReference: {fileID: 8300000, guid: d971a2d173b1d324199cc4b621e3ae3c, type: 3}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[2].audio
+      value: 
+      objectReference: {fileID: 8300000, guid: d1fe8d62cbb7dfa4498d88528d15fee9, type: 3}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[3].audio
+      value: 
+      objectReference: {fileID: 8300000, guid: 49191071449c1324fa8bf62bd9ebdb05, type: 3}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[0].volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[1].volume
+      value: 0.272
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[2].volume
+      value: 0.774
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[3].volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[1].isLooping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 38392808929966110, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}
+      propertyPath: sounds.Array.data[2].isLooping
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 245f6e79912a2eb4ea242491811f87d4, type: 3}

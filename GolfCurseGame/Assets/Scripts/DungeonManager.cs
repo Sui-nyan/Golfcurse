@@ -71,6 +71,8 @@ public class DungeonManager : MonoBehaviour
                 playerCam.target = go.gameObject;
                 playerCam.cameraFollowSpeed = prevSpeed;
                 playerCam.targetZoom = 6;
+                playerCam.minTargetBound.z = -14;
+                playerCam.maxTargetBound.z = 18;
 
                 StartCoroutine(go.BossSceneAnimation(delay));
                 yield return new WaitForSeconds(delay);
@@ -105,7 +107,7 @@ public class DungeonManager : MonoBehaviour
             OnRoomCleared?.Invoke();
         }
 
-        if(isBossRoom && !roomIsCleared && AllEnemiesDead())
+        if(isBossRoom && AllEnemiesDead())
         {
             Debug.Log("Boss defeated");
             if(!chest)

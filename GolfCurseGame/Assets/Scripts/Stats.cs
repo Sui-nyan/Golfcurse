@@ -45,7 +45,10 @@ public class Stats : MonoBehaviour
             Destroy(gameObject);
             Destroy(healthbar.gameObject);
             FindObjectOfType<VisualEffectsManager>().OnDeath(gameObject);
-            FindObjectOfType<SoundEffectManager>().onDeath(gameObject);
+            if(gameObject.CompareTag("Enemy"))
+                FindObjectOfType<SoundEffectManager>().playSound("Chick");
+            if(gameObject.CompareTag("Player"))
+                FindObjectOfType<SoundEffectManager>().playSound("Player");
         }
     }
 }

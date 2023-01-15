@@ -26,6 +26,7 @@ public class Door : MonoBehaviour
             if (other.CompareTag("Player"))
             {
                 Debug.Log("Entering Door...");
+                
                 FindObjectOfType<DungeonManager>().LoadNextDungeonRoom();
             }
         }
@@ -39,6 +40,7 @@ public class Door : MonoBehaviour
         Debug.Log("Door opened");
         Debug.Log(this);
         isPassable = true;
+        FindObjectOfType<SoundEffectManager>().playSound("Door");
         foreach (Transform child in transform)
         {
             Destroy(child.gameObject);

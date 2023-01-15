@@ -19,7 +19,8 @@ public class PlayerCamera : MonoBehaviour
 
     void FixedUpdate()
     {
-        FollowPlayer();
+        if(target)
+            FollowPlayer();
     }
     /// <summary>
     /// faces and follows the player based of an offset
