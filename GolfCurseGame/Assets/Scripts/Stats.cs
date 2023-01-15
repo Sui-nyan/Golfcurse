@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Stats : MonoBehaviour
@@ -41,7 +38,7 @@ public class Stats : MonoBehaviour
     /// <summary>
     /// handles health and what happens when health drops below 0
     /// </summary>
-    /// <param name="damage"></param>
+    /// <param name="damage">health to be substracted</param>
     public void TakeDamage(float damage)
     {
         health -= damage;

@@ -32,6 +32,12 @@ public class DungeonManager : MonoBehaviour
         mainCamera = FindObjectOfType<PlayerCamera>().GetComponent<Camera>();
     }
 
+    /// <summary>
+    /// gets the room and enemies and resets parameters
+    /// if the boss scene is active the camera moves to the boss and the boss plays an animation
+    /// </summary>
+    /// <param name="scene"></param>
+    /// <param name="mode"></param>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"Loaded scene {scene.name}");
@@ -73,7 +79,10 @@ public class DungeonManager : MonoBehaviour
             gui.TransitionIn();
         }
     }
-
+    /// <summary>
+    /// Debug
+    /// </summary>
+    /// <param name="scene"></param>
     private void OnSceneUnloaded(Scene scene)
     {
         Debug.Log($"Unloaded scene {scene.name}");
@@ -88,7 +97,10 @@ public class DungeonManager : MonoBehaviour
             OnRoomCleared?.Invoke();
         }
     }
-
+    /// <summary>
+    /// checks if enemies exist in scene
+    /// </summary>
+    /// <returns>true when all enemy objects are destroyed</returns>
     bool AllEnemiesDead()
     {
         foreach (GameObject go in enemies)
@@ -101,7 +113,9 @@ public class DungeonManager : MonoBehaviour
 
         return true;
     }
-
+    /// <summary>
+    /// loads and unloads the next scene
+    /// </summary>
     public void LoadNextDungeonRoom()
     {
         IEnumerator ChangeScene(int targetSceneIndex)
