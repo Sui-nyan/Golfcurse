@@ -18,10 +18,11 @@ public class DungeonManager : MonoBehaviour
     private bool isLoading;
     private bool isBossRoom;
     private bool roomIsCleared;
-    
 
     public event Action OnRoomCleared;
-
+    /// <summary>
+    /// subscribe events
+    /// </summary>
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -29,6 +30,9 @@ public class DungeonManager : MonoBehaviour
         navMesh = GetComponent<NavMeshSurface>();
     }
 
+    /// <summary>
+    /// unsubscribe events
+    /// </summary>
     private void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -64,6 +68,7 @@ public class DungeonManager : MonoBehaviour
         currentSceneIndex = scene.buildIndex;
         Physics.SyncTransforms();
         
+        //cutscene for the boss scene
         if (scene.name.Equals("BossScene"))
         {
             isBossRoom = true;
@@ -99,7 +104,7 @@ public class DungeonManager : MonoBehaviour
         }
     }
     /// <summary>
-    /// Debug
+    /// Debug info
     /// </summary>
     /// <param name="scene"></param>
     private void OnSceneUnloaded(Scene scene)
@@ -186,7 +191,6 @@ public class DungeonManager : MonoBehaviour
     /// Resets player position 
     /// </summary>
     /// <param name="player"></param>
-    /// <returns></returns>
     void Teleport(GameObject player)
     {
         Debug.Log("Teleporting..." + player.transform.position);

@@ -1,10 +1,9 @@
-using System.Collections.Generic;
-using UnityEngine;
 using System;
+using UnityEngine;
 
 public class VisualEffectsManager : MonoBehaviour
 {
-    public SFXEffect[] effects;
+    public VFXEffect[] effects;
 
     /// <summary>
     /// handles vfx for defeated objects
@@ -13,7 +12,7 @@ public class VisualEffectsManager : MonoBehaviour
     public void OnDeath(string name, GameObject go)
     {
         Debug.Log("Defeated " + name);
-        SFXEffect vfx = Array.Find(effects, effect => effect.name.Contains(name));
+        VFXEffect vfx = Array.Find(effects, effect => effect.name.Contains(name));
         if (vfx != null)
         {
             ParticleSystem p = Instantiate<ParticleSystem>(vfx.effect, gameObject.transform);
@@ -22,9 +21,11 @@ public class VisualEffectsManager : MonoBehaviour
             Destroy(p.gameObject, p.main.duration);
         }
     }
-
+    /// <summary>
+    /// holds visual effects
+    /// </summary>
     [Serializable]
-    public class SFXEffect
+    public class VFXEffect
     {
         public string name;
 

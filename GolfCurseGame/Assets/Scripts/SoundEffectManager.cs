@@ -4,10 +4,12 @@ using UnityEngine.SceneManagement;
 
 public class SoundEffectManager : MonoBehaviour
 {
+    //List of all sounds available
     public SoundEffect[] sounds;
 
     private void Start()
     {
+        //create audio source for each sound
         foreach(SoundEffect s in sounds)
         {
             s.source = gameObject.AddComponent<AudioSource>();
@@ -23,7 +25,10 @@ public class SoundEffectManager : MonoBehaviour
             PlaySound("End");
 
     }
-
+    /// <summary>
+    /// plays sound
+    /// </summary>
+    /// <param name="name">name of the sound to be played</param>
     public void PlaySound(string name)
     {
         SoundEffect s = Array.Find(sounds, sound => sound.name == name);
@@ -36,7 +41,9 @@ public class SoundEffectManager : MonoBehaviour
 
         s.source.Play();
     }
-
+    /// <summary>
+    /// holds Sound effects
+    /// </summary>
     [Serializable]
     public class SoundEffect
     {

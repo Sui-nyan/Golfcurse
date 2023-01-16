@@ -1,5 +1,8 @@
 using UnityEngine;
 
+/// <summary>
+/// functions similarly to the weapon script
+/// </summary>
 public class ChickenHead : MonoBehaviour
 {
     public Collider collider;

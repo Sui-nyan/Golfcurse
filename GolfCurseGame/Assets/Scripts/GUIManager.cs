@@ -52,12 +52,15 @@ public class GUIManager : MonoBehaviour
     {
         Application.Quit();
     }
-
+    /// <summary>
+    ///  handles game over UI and returns to main menu
+    /// </summary>
+    /// <returns></returns>
     public IEnumerator GameOver()
     {
         FindObjectOfType<SoundEffectManager>().PlaySound("GameOver");
         TransitionOut();
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2.5f);
         
         SceneManager.LoadScene(0);
     }

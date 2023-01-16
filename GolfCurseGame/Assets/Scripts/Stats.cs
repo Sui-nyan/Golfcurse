@@ -33,7 +33,7 @@ public class Stats : MonoBehaviour
     }
 
     /// <summary>
-    /// handles health and what happens when health drops below 0
+    /// handles health
     /// </summary>
     /// <param name="damage">health to be substracted</param>
     public void TakeDamage(float damage)
@@ -43,6 +43,10 @@ public class Stats : MonoBehaviour
         if (healthbar) healthbar.SetHeath(health);
     }
 
+    /// <summary>
+    /// handles death
+    /// </summary>
+    /// <param name="_name"></param>
     public void onDying(string _name)
     {
         Destroy(gameObject);

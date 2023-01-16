@@ -11,7 +11,10 @@ public class RewardChest : MonoBehaviour
     {
         animator = GetComponent<Animator>();
     }
-
+    /// <summary>
+    /// starts animation when player gets in range
+    /// </summary>
+    /// <param name="other"></param>
     private void OnTriggerEnter(Collider other)
     {
         if(other.CompareTag("Player"))
