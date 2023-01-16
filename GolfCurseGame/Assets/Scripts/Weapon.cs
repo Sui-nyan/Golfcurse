@@ -6,7 +6,6 @@ public class Weapon : MonoBehaviour
 {
     public BoxCollider collider;
     public float damage = 10f;
-    public float thrust = 5f;
 
     private void Start()
     {
@@ -34,7 +33,9 @@ public class Weapon : MonoBehaviour
     void DamageEnemy(GameObject enemy)
     {
         Stats stats = enemy.GetComponent<Stats>();
-        stats.TakeDamage(damage);
-        stats.Knockback(thrust);
+        if (stats)
+        {
+            stats.TakeDamage(damage);
+        }
     }
 }

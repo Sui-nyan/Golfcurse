@@ -5,36 +5,48 @@ using UnityEngine;
 
 public class Stats : MonoBehaviour
 {
+    private Healthbar healthbar;
+
+    [SerializeField] private Vector3 healthbarOffset = new Vector3(0, 30, 0);
     public float Health => health;
     public float Attack => attack;
     [SerializeField] private float health;
     [SerializeField] private float attack;
-    [SerializeField] private ParticleSystem destroyVFX;
     Rigidbody rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        // If there's no healthbar
+        if (!healthbar)
+        {
+            var prefab = Resources.Load<Healthbar>("EnemyHealthbar");
+            var canvas = FindObjectOfType<Canvas>();
+            healthbar = Instantiate<Healthbar>(prefab, canvas.transform);
+        }
+
+        healthbar.SetMaxSliderValue(health);
+    }
+
+    private void Update()
+    {
+        if (healthbar && Camera.main)
+        {
+            healthbar.transform.position = Camera.main.WorldToScreenPoint(transform.position) + healthbarOffset;
+        }
     }
 
     public void TakeDamage(float damage)
     {
         health -= damage;
+        if (healthbar) healthbar.SetHeath(health);
 
         if (health <= 0)
         {
             Destroy(gameObject);
-            try
-            {
-                if (destroyVFX != null)
-                {
-                    Instantiate<ParticleSystem>(destroyVFX, transform.position, Quaternion.identity);
-                }
-            }
-            catch (NullReferenceException e)
-            {
-                Debug.LogError("You forgot to add destroyVFX...");
-            }
+            Destroy(healthbar.gameObject);
+            VisualEffectsManager.OnDeath(gameObject);
         }
     }
 

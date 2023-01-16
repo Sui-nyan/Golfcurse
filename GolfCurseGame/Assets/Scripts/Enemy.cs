@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.AI;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
@@ -9,42 +9,41 @@ public class Enemy : MonoBehaviour
     public NavMeshAgent agent;
     private GameObject player;
 
-    [SerializeField] private ParticleSystem hitVFX;
     private Animator animator;
     private Rigidbody rb;
-    private Stats stats;
-    public float range, attackrange = 1;
+    private Stats enemyStats;
 
-    private bool isInRange, isRunning, isInAttackRange;
-    // Start is called before the first frame update
+    private float attackrange = 1;
+    private float attackCooldown = 1f;
+   
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        stats = GetComponent<Stats>();
+        enemyStats = GetComponent<Stats>();
     }
 
     private void Update()
     {
-        isInRange = Physics.CheckSphere(transform.position, range, playerMask);
         animator.SetBool("Run", false);
 
-        if (isInRange)
-        {
+        if(player)
             ChasePlayer();
-        }
     }
 
+    /// <summary>
+    /// chases the player, stops within attack range
+    /// </summary>
     void ChasePlayer()
     {
         float distance = Vector3.Distance(transform.position, player.transform.position);
 
-        if(distance >= attackrange)
+        if (distance >= attackrange)
         {
             animator.SetBool("Run", true);
             agent.SetDestination(player.transform.position);
-        } 
+        }
         else
         {
             if (agent.hasPath)
@@ -52,26 +51,46 @@ public class Enemy : MonoBehaviour
                 agent.ResetPath();
                 rb.velocity = Vector3.zero;
             }
-            
-        }   
-    }
 
-    void Attack()
-    {
-        isInAttackRange = Physics.CheckSphere(transform.position, attackrange, playerMask);
-        if (isInAttackRange)
-        {
-            animator.SetTrigger("Attack");
-            Stats playerStats = player.GetComponent<Stats>();
-            playerStats.TakeDamage(stats.Attack);
         }
-
     }
 
-    private void OnDrawGizmos()
+    /// <summary>
+    /// attacks if player is within range
+    /// </summary>
+    /// <param name="other">colliding collider</param>
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            attackCooldown -= Time.deltaTime;
+            if (attackCooldown <= 0)
+            {
+                Stats playerStats = other.GetComponent<Stats>();
+                Attack(playerStats);
+            }
+        }
+    }
+
+    /// <summary>
+    /// attacks the player and resets the attack cooldown before initiating new attack
+    /// </summary>
+    /// <param name="player">player to be attacked</param>
+    void Attack(Stats player)
+    {
+        animator.SetTrigger("Attack");
+
+        player.TakeDamage(enemyStats.Attack);
+        attackCooldown = 1f;
+    }
+
+    /// <summary>
+    /// For debugging purposes draws the range
+    /// within the chicken can attack
+    /// </summary>
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, range);
         Gizmos.DrawWireSphere(transform.position, attackrange);
     }
 }
